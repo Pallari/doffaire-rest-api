@@ -1,26 +1,27 @@
-import { Sequelize, Options } from 'sequelize';
+const mongoose = require('mongoose');
 const dbUrl: string = process.env.DB_URL || '';
-const nodeEnv: string = process.env.NODE_ENV || '';
+export class DBConnect {
 
-if (!dbUrl) {
-  console.log('Please create .env file, refer .env.sample');
-  process.exit(0);
+  public connectedDb;
+
+  constructor() {
+    this.setupDb();
+  }
+
+  private setupDb(): void {
+    if (!dbUrl) {
+      console.log('Please create .env file, refer .env.sample');
+      process.exit(0);
+    }
+    mongoose.connect(dbUrl, {
+      dbName: 'doffaire'
+    })
+      .then((db) => {
+        this.connectedDb = db;
+        console.log('Connected to MongoDB', db);
+      })
+      .catch((error) => {
+        console.error('Error connecting to MongoDB:', error);
+      });
+  }
 }
-
-let optionsObj: object = { benchmark: true, logging: console.log };
-
-if (nodeEnv && nodeEnv === 'production') {
-  optionsObj = { logging: false };
-}
-const options: Options = optionsObj;
-
-export const sequelize: Sequelize = new Sequelize(dbUrl, options);
-
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Connection has been established successfully..');
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err);
-  });

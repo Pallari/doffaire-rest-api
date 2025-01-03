@@ -2,6 +2,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 import * as express from 'express';
 import { Application } from 'express';
+import { DBConnect } from './src/db/db';
 
 const app: Application = express();
 const server_url: string = process.env.SERVER_URL || 'localhost';
@@ -20,6 +21,7 @@ app.get('*', (req, res) => {
 });
 
 app.listen(port, server_url, () => {
+  const db = new DBConnect();
   console.info(`Server running on : ${server_url}:${port}`);
 }).on('error', (err: any) => {
   if (err.code === 'EADDRINUSE') {

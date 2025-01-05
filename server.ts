@@ -24,7 +24,7 @@ app.use(express.json());
 
 app
   .listen(port, server_url, () => {
-    const db = new DBConnect();
+    // const db = new DBConnect();
     console.info(`Server running on : ${server_url}:${port}`);
   })
   .on("error", (err: any) => {

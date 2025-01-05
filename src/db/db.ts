@@ -13,9 +13,7 @@ export class DBConnect {
       process.exit(0);
     }
     mongoose
-      .connect(dbUrl, {
-        dbName: "doffair_dev",
-      })
+      .connect(dbUrl)
       .then((db) => {
         this.connectedDb = db;
         console.log("Connected to MongoDB");

@@ -1,13 +1,17 @@
 import { Router } from "express";
 import GroomerCtrl from "../../controllers/groomer/GroomerCtrl";
-class CourseRoutes {
+class GroomerRoutes {
   router = Router();
-  coursesCtrl = new GroomerCtrl();
+  groomerCtrl = new GroomerCtrl();
   constructor() {
     this.intializeRoutes();
   }
   intializeRoutes() {
-    this.router.route("/").get(this.coursesCtrl.userRegistration);
+    this.router
+      .route("/registration")
+      .post(this.groomerCtrl.groomerRegistration);
+    this.router.route("/").get(this.groomerCtrl.getGroomer);
+    this.router.route("/verification").post(this.groomerCtrl.verification);
   }
 }
-export default new CourseRoutes().router;
+export default new GroomerRoutes().router;

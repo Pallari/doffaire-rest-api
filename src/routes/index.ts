@@ -1,8 +1,10 @@
 import { Application } from "express";
-import groomerRouter from "./groomer/Groomer";
+import groomerRouter from "./Groomer";
+import authRouter from "./Auth";
 export default class Routes {
   constructor(app: Application) {
-    // Groomer routes
+    // course reroutes
     app.use("/groomer", groomerRouter);
+    app.use("/auth", authRouter);
   }
 }

@@ -1,20 +1,18 @@
-import { Request, Response, NextFunction } from "express";
-import { apiErrorHandler } from "../../handlers/errorHandler";
-import { DBConnect } from "../../db/db";
-import { Groomer } from "../../models/groomer/Groomers";
+import { DBConnect } from "../db/db";
+import { apiErrorHandler } from "../handlers/errorHandler";
+import { Groomer } from "../models/Groomers";
 
-export default class GroomerCtrl {
+export default class Auth {
   database = new DBConnect();
-
-  constructor() {}
-
-  async groomerRegistration(req: Request, res: Response, _next: NextFunction) {
+  async registration(req, res) {
     try {
       // get the request body
       const data = req.body;
 
       // Find user is already exists or not
-      const groomer = Groomer.findOne({ email: data.groomer_email }).exec();
+      const groomer = await Groomer.findOne({
+        email: data.groomer_email,
+      }).exec();
 
       // If user exist, send the response
       if (groomer)
@@ -46,15 +44,7 @@ export default class GroomerCtrl {
     }
   }
 
-  async getGroomer(req: Request, res: Response, next: NextFunction) {
-    try {
-      res.json({ success: true, data: "success" });
-    } catch (error) {
-      apiErrorHandler(error, req, res, "Fetch All groomer failed.");
-    }
-  }
-
-  async verification(req: Request, res: Response, next: NextFunction) {
+  async verification(req, res) {
     try {
     } catch (error) {
       apiErrorHandler(error, req, res, "Verification failed.");

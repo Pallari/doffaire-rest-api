@@ -2,6 +2,7 @@ import * as Joi from "joi";
 
 export const register = {
   body: Joi.object().keys({
+    business_category: Joi.string().valid("groomer", "veteran"),
     groomer_email: Joi.string().required().email(),
     groomer_logo: Joi.string().required(),
     groomer_store_name: Joi.string().required(),

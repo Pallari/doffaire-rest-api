@@ -1,11 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
-import { apiErrorHandler } from '../handlers/errorHandler';
-import { DBConnect } from '../db/db';
-import { Veteran } from '../models/Veteran';
+import { Request, Response, NextFunction } from "express";
+import { apiErrorHandler } from "../handlers/errorHandler";
+import { Veteran } from "../models/Veteran";
 
 export default class VeteranCtrl {
-  database = new DBConnect();
-
   constructor() {}
 
   async updateVeteran(req: Request, res: Response, _next: NextFunction) {
@@ -14,11 +11,13 @@ export default class VeteranCtrl {
       const data = req.body;
 
       // Find user is already exists or not
-      const veteran = await Veteran.findOne({ email: data.veteran_email }).exec();
+      const veteran = await Veteran.findOne({
+        email: data.veteran_email,
+      }).exec();
 
       // If user exist, send the response
       if (veteran)
-        return res.json({ success: false, message: 'User Already registered' });
+        return res.json({ success: false, message: "User Already registered" });
 
       const groomerData = new Veteran({
         storeName: data.groomer_store_name,
@@ -42,23 +41,23 @@ export default class VeteranCtrl {
         message: 'Error while saving groomer"s Data',
       });
     } catch (error) {
-      apiErrorHandler(error, req, res, 'Registration failed.');
+      apiErrorHandler(error, req, res, "Registration failed.");
     }
   }
 
   async getVeteran(req: Request, res: Response, next: NextFunction) {
     try {
-      res.json({ success: true, data: 'success' });
+      res.json({ success: true, data: "success" });
     } catch (error) {
-      apiErrorHandler(error, req, res, 'Fetch All groomer failed.');
+      apiErrorHandler(error, req, res, "Fetch All groomer failed.");
     }
   }
 
   async deleteVeteranInfo(req: Request, res: Response, next: NextFunction) {
     try {
-      res.json({ success: true, data: 'success' });
+      res.json({ success: true, data: "success" });
     } catch (error) {
-      apiErrorHandler(error, req, res, 'Fetch All groomer failed.');
+      apiErrorHandler(error, req, res, "Fetch All groomer failed.");
     }
   }
 }

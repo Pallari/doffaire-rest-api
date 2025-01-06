@@ -9,7 +9,9 @@ class AuthRoutes {
     this.intializeRoutes();
   }
   intializeRoutes() {
-    this.router.route("/registration").post(validate(register), this.authCtrl.registration);
+    this.router
+      .route("/registration")
+      .post(validate(register), this.authCtrl.registration);
   }
 }
 export default new AuthRoutes().router;

@@ -20,6 +20,7 @@
     "postgresql",
     "javascript"
   ],
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/Pallari/doffaire-rest-api"

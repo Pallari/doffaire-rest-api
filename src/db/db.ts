@@ -9,7 +9,6 @@ export class DBConnect {
 
   private setupDb(): void {
     if (!dbUrl) {
-      console.log("Please create .env file, refer .env.sample");
       process.exit(0);
     }
     mongoose

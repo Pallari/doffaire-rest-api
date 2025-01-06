@@ -5,9 +5,10 @@ import { Groomer } from "../../models/groomer/Groomers";
 
 export default class GroomerCtrl {
   database = new DBConnect();
+
   constructor() {}
 
-  async groomerRegistration(req: Request, res: Response, next: NextFunction) {
+  async groomerRegistration(req: Request, res: Response, _next: NextFunction) {
     try {
       // get the request body
       const data = req.body;
@@ -49,7 +50,7 @@ export default class GroomerCtrl {
     try {
       res.json({ success: true, data: "success" });
     } catch (error) {
-      apiErrorHandler(error, req, res, "Fetch All Lessons failed.");
+      apiErrorHandler(error, req, res, "Fetch All groomer failed.");
     }
   }
 

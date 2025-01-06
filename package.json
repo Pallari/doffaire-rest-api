@@ -22,11 +22,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/Pallari/doffaire-rest-api"
   },
-  "homepage": "",
+  "homepage": "https://github.com/Pallari/doffaire-rest-api",
   "bugs": {
-    "url": ""
+    "url": "https://github.com/Pallari/doffaire-rest-api/issues"
   },
   "author": "",
   "license": "",

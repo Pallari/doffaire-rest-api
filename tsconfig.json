@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "CommonJS",
     "target": "es6",
     "noImplicitAny": false,
     "sourceMap": true,
@@ -9,7 +9,8 @@
     "outDir": "./dist",
     "resolveJsonModule": true,
     "rootDir": "./",
-    "moduleResolution":"Node"
+    "moduleResolution":"Node",
+    "esModuleInterop": true
   },
   "files.exclude": {
     "**/.git": true,

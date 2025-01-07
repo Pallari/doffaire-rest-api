@@ -1,7 +1,7 @@
 import { Application, urlencoded, json } from "express";
 
-import * as helmet from "helmet";
-import * as winston from "winston";
+import helmet from "helmet";
+import winston from "winston";
 
 import rateLimiter from "./middlewares/rateLimit";
 import { unCoughtErrorHandler } from "./handlers/errorHandler";

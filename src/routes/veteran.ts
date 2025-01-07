@@ -4,9 +4,9 @@ import VeteranCtrl from '../controllers/VeteranCtrl';
 
 class VeteranRoutes {
 
-    public router = Router();
+    router = Router();
 
-    private veteranCtrl = new VeteranCtrl();
+    veteranCtrl = new VeteranCtrl();
 
     constructor() {
         this.intializeRoutes();
@@ -17,11 +17,10 @@ class VeteranRoutes {
         this.router.route("/").get(this.veteranCtrl.getVeteran);
 
         // POST APIs
-        this.router.route("/update").post(this.veteranCtrl.updateVeteran);
+        // this.router.route("/update").post(this.veteranCtrl.updateVeteran);
 
         // PUT APIs
-        this.router.route("/update").put(this.veteranCtrl.updateVeteran);
-
+    
         // DELETE APIs
         this.router.route("/delete").post(this.veteranCtrl.deleteVeteranInfo);
     }

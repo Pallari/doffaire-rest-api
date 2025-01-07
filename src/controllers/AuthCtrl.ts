@@ -1,9 +1,10 @@
 import { apiErrorHandler } from "../handlers/errorHandler";
 import { Groomer } from "../models/Groomers";
 import { Veteran } from "../models/Veteran";
-import veteran from "../routes/veteran";
-
 export default class Auth {
+  
+  constructor() {}
+
   async registration(req, res) {
     try {
       // get the request body

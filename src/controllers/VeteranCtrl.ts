@@ -5,7 +5,7 @@ import { Veteran } from "../models/Veteran";
 export default class VeteranCtrl {
   constructor() {}
 
-  async updateVeteran(req: Request, res: Response, _next: NextFunction) {
+  async updateVeteran(req: Request, res: Response, next: NextFunction) {
     try {
       // get the request body
       const data = req.body;
@@ -44,7 +44,7 @@ export default class VeteranCtrl {
       apiErrorHandler(error, req, res, "Registration failed.");
     }
   }
-
+ 
   async getVeteran(req: Request, res: Response, next: NextFunction) {
     try {
       res.json({ success: true, data: "success" });

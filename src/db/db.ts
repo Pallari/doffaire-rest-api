@@ -1,5 +1,4 @@
-// import mongoose from 'mongoose';
-const mongoose = require("mongoose");
+import mongoose from 'mongoose';
 
 const dbUrl: string = process.env.DB_URL || "";
 export class DBConnect {

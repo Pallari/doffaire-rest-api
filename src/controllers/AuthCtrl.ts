@@ -2,7 +2,6 @@ import { apiErrorHandler } from "../handlers/errorHandler";
 import { Groomer } from "../models/Groomers";
 import { Veteran } from "../models/Veteran";
 export default class Auth {
-  
   constructor() {}
 
   async registration(req, res) {
@@ -49,7 +48,7 @@ export default class Auth {
       if (data.business_category === "veteran") {
         // Find veteran is already exists or not
         const veteran = await Veteran.findOne({
-          email: data.groomer_email,
+          email: data.veterinary_email,
         }).exec();
 
         // If veteran exist, send the response

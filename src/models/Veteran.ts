@@ -1,15 +1,18 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const VeteranSchema = new mongoose.Schema(
   {
     clinicName: { type: String, required: true },
     email: { type: String, required: true },
+    password: { type: String, required: true },
     logo: { type: String },
     phone: { type: String, required: true },
     alternativePhone: { type: String },
     bussinessRegistrationId: { type: String },
     gstNumber: { type: String },
     emergencyPhoneNumber: { type: String },
+    smsSecretKey: { type: String },
+    isVerification: { type: Boolean, default: false },
   },
   {
     timestamps: true,

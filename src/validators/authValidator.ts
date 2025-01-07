@@ -22,3 +22,19 @@ export const register = {
     veterinary_emergency_phone_number: Joi.string(),
   }),
 };
+
+export const verification = {
+  body: Joi.object().keys({
+    business_category: Joi.string().required().valid("groomer", "veteran"),
+    otp: Joi.number().required(),
+    phone: Joi.string().required(),
+  }),
+};
+
+export const login = {
+  body: Joi.object().keys({
+    business_category: Joi.string().required().valid("groomer", "veteran"),
+    email: Joi.string().required(),
+    password: Joi.string().required(),
+  }),
+};

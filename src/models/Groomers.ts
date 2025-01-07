@@ -1,9 +1,10 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const GroomerSchema = new mongoose.Schema(
   {
     storeName: { type: String, required: true },
     email: { type: String, required: true },
+    password: { type: String, required: true },
     logo: { type: String },
     phone: { type: String, required: true },
     alternativePhone: { type: String },
@@ -14,6 +15,8 @@ const GroomerSchema = new mongoose.Schema(
       { is_home_service: { type: Boolean, default: false } },
       { is_center_service: { type: Boolean, default: false } },
     ],
+    smsSecretKey: { type: String },
+    isVerification: { type: Boolean, default: false },
   },
   {
     timestamps: true,

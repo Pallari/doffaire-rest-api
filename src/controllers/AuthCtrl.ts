@@ -1,297 +1,162 @@
-import axios from "axios";
+import axios from 'axios';
 
-import { apiErrorHandler } from "../handlers/errorHandler";
-import { Groomer } from "../models/Groomers";
-import { Veteran } from "../models/Veteran";
-import {
-  authentication,
-  comparePassword,
-  createAuthToken,
-} from "../utils/authentication";
+import { apiErrorHandler } from '../handlers/errorHandler';
+import { Groomer } from '../models/Groomers';
+import { Veteran } from '../models/Veteran';
+import { authentication, comparePassword, createAuthToken } from '../utils/authentication';
+import { PY_SMS_VALIDATE, PY_GENERATE_OTP } from '../constants/constants';
+
 export default class Auth {
-  constructor() {}
+  constructor() { }
 
   async registration(req, res) {
     try {
-      // get the request body
-      const data = req.body;
-
-      if (data.business_category === "groomer") {
-        // Find groomer is already exists or not
-        const groomer = await Groomer.findOne({
-          email: data.groomer_email,
-        }).exec();
-
-        // If groomer exist, send the response
-        if (groomer)
-          return res.json({
-            success: false,
-            message: "Groomer Already registered",
-          });
-        const password = await authentication("abcd@123");
-
-        await axios
-          .get(
-            `https://doffair-python-apis.azurewebsites.net/otp/sms/generate-otp?mobile_number=${data.groomer_phone}`
-          )
-          .then(async (response) => {
-            const smsSecretKey = response.data.secret_key;
-
-            const groomerData = new Groomer({
-              storeName: data.groomer_store_name,
-              email: data.groomer_email,
-              logo: data.groomer_logo,
-              phone: data.groomer_phone,
-              password: password,
-              alternativePhone: data.groomer_alernative_phone,
-              bussinessRegistrationId: data.groomer_bussiness_registration_id,
-              gstNumber: data.groomer_gst_number,
-              workExperience: data.groomer_work_experience,
-              provideService: data.groomer_provider_service,
-              smsSecretKey: smsSecretKey,
-            });
-            const groomersData = await groomerData.save();
-
-            if (groomersData)
-              return res.json({ success: true, data: groomersData });
-
-            return res.json({
-              success: false,
-              message: "Error while saving groomer's Data",
-            });
-          })
-          .catch((error) => {
-            apiErrorHandler(error, req, res, "Sending Sms failed.");
-          });
-      }
-
-      if (data.business_category === "veteran") {
-        // Find veteran is already exists or not
-        const veteran = await Veteran.findOne({
-          email: data.veterinary_email,
-        }).exec();
-
-        // If veteran exist, send the response
-        if (veteran)
-          return res.json({
-            success: false,
-            message: "Veteran Already registered",
-          });
-        const password = await authentication("abcd@123");
-        await axios
-          .get(
-            `https://doffair-python-apis.azurewebsites.net/otp/sms/generate-otp?mobile_number=${data.veterinary_phone}`
-          )
-          .then(async (response) => {
-            const smsSecretKey = response.data.secret_key;
-
-            const veteranData = new Veteran({
-              clinicName: data.veterinary_clinic_name,
-              email: data.veterinary_email,
-              password: password,
-              logo: data.veterinary_logo,
-              phone: data.veterinary_phone,
-              alternativePhone: data.veterinary_alternative_phone,
-              bussinessRegistrationId:
-                data.veterinary_bussiness_registration_id,
-              gstNumber: data.veterinary_gst_number,
-              emergencyPhoneNumber: data.veterinary_emergency_phone_number,
-              smsSecretKey: smsSecretKey,
-            });
-
-            // Insert data to db
-            const veteransData = await veteranData.save();
-
-            if (veteransData)
-              return res.json({ success: true, data: veteransData });
-
-            return res.json({
-              success: false,
-              message: "Error while saving veteran's Data",
-            });
-          })
-          .catch((error) => {
-            apiErrorHandler(error, req, res, "Sending Sms failed.");
-          });
-      }
+      this.doRegisterUser(req, res);
     } catch (error) {
-      apiErrorHandler(error, req, res, "Registration failed.");
+      apiErrorHandler(error, req, res, 'Registration failed.');
     }
   }
 
   async verification(req, res) {
     try {
-      // get the request body
-      const data = req.body;
-
-      if (data.business_category === "groomer") {
-        // Find groomer is already exists or not
-        const groomer = await Groomer.findOne({
-          phone: data.phone,
-        }).exec();
-
-        if (!groomer)
-          return res.json({
-            success: false,
-            message: "Groomer Not Found",
-          });
-
-        await axios
-          .get(
-            `https://doffair-python-apis.azurewebsites.net/otp/sms/validate-otp/${data.otp}?mobile_number=${data.phone}&secret_key=${groomer.smsSecretKey}`
-          )
-          .then(async (response) => {
-            if (response.data.is_valid) {
-              await Groomer.updateOne(
-                { _id: groomer._id },
-                { $set: { isVerification: true } }
-              );
-              return res.json({
-                success: true,
-                message: "Verification Success",
-              });
-            }
-
-            return res.json({
-              success: false,
-              message: "Verification Failed",
-            });
-          })
-          .catch((error) => {
-            return res.json({
-              success: false,
-              message: "Verification Failed",
-            });
-          });
-      }
-      if (data.business_category === "veteran") {
-        // Find groomer is already exists or not
-        const veteran = await Veteran.findOne({
-          phone: data.phone,
-        }).exec();
-
-        if (!veteran)
-          return res.json({
-            success: false,
-            message: "Veteran Not Found",
-          });
-        console.log(`---data--`, data);
-
-        // FIX ME
-        await axios
-          .get(
-            `https://doffair-python-apis.azurewebsites.net/otp/sms/validate-otp/${data.otp}?mobile_number=${data.phone}&secret_key=${veteran.smsSecretKey}`
-          )
-          .then(async (response) => {
-            console.log(`---response--`, response);
-            if (response.data.is_valid) {
-              await Veteran.updateOne(
-                { _id: veteran._id },
-                { $set: { isVerification: true } }
-              );
-              return res.json({
-                success: true,
-                message: "Verification Success",
-              });
-            }
-            return res.json({
-              success: false,
-              message: "Verification Failed",
-            });
-          })
-          .catch((error) => {
-            console.log(`-inside--error--`, error);
-            return res.json({
-              success: false,
-              message: "Verification Failed",
-            });
-          });
-      }
+      await this.doVerification(req, res);
     } catch (error) {
-      console.log(`-outsode--error--`, error);
-      apiErrorHandler(error, req, res, "Verification failed.");
+      apiErrorHandler(error, req, res, 'Verification failed.');
     }
   }
 
   async login(req, res) {
     try {
-      const data = req.body;
-
-      if (data.business_category === "groomer") {
-        const groomer = await Groomer.findOne({
-          email: data.email,
-        }).exec();
-
-        if (!groomer)
-          return res.json({
-            success: false,
-            message: "Groomer Not Found",
-          });
-
-        const isPasswordMatch = await comparePassword(
-          data.password,
-          groomer.password
-        );
-
-        if (!isPasswordMatch)
-          return res.json({ success: false, message: "Incorrect Password" });
-
-        const sessionToken = await createAuthToken({ userId: groomer._id });
-        const updatedGroomer = await Groomer.findByIdAndUpdate(
-          { _id: groomer._id },
-          { $set: { sessionToken } },
-          {
-            new: true,
-          }
-        );
-
-        return res.json({
-          success: true,
-          message: "Login Successfully",
-          data: updatedGroomer,
-        });
-      }
-      if (data.business_category === "veteran") {
-        const veteran = await Veteran.findOne({
-          email: data.email,
-        }).exec();
-
-        if (!veteran)
-          return res.json({
-            success: false,
-            message: "Veteran Not Found",
-          });
-
-        const isPasswordMatch = await comparePassword(
-          data.password,
-          veteran.password
-        );
-        if (!isPasswordMatch)
-          return res.json({ success: false, message: "Incorrect Password" });
-
-        const sessionToken = await createAuthToken({ userId: veteran._id });
-
-        const updatedVeteran = await Veteran.findByIdAndUpdate(
-          { _id: veteran._id },
-          { $set: { sessionToken } },
-          { new: true }
-        );
-
-        return res.json({
-          success: true,
-          message: "Login Successfully",
-          data: updatedVeteran,
-        });
-      }
+      this.doLogin(res, res);
     } catch (error) {
-      apiErrorHandler(error, req, res, "Login failed.");
+      apiErrorHandler(error, req, res, 'Login failed.');
     }
   }
 
   async forgotPassword(req, res) {
     try {
     } catch (error) {
-      apiErrorHandler(error, req, res, "Forgot Password failed.");
+      apiErrorHandler(error, req, res, 'Forgot Password failed.');
     }
+  }
+
+  async doRegisterUser(req, res) {
+    const data = req.body;
+    const business_category = data.business_category;
+
+    const user = business_category === 'groomer' ? await Groomer.findOne({ email: data?.groomer_email }).exec() : await Veteran.findOne({ email: data?.veterinary_email }).exec();
+
+    if (user) {
+      return res.json({ success: false, message: `${business_category} already registered.` });
+    }
+
+    const password = await authentication('abcd@123');
+    const phoneNumber = business_category === 'groomer' ? data.groomer_phone : data.veterinary_phone;
+
+    await axios.get(`${PY_GENERATE_OTP}?mobile_number=${phoneNumber}`)
+      .then(async (response) => {
+        data.smsSecretKey = response.data.secret_key;
+        data.password = password;
+        const userData = await this.saveUserData(data);
+
+        if (userData) {
+          return res.json({ success: true, data: userData });
+        }
+
+        return res.json({ success: false, message: `Error while saving ${business_category}"s Data` });
+      })
+      .catch((error) => {
+        apiErrorHandler(error, req, res, 'Sending Sms failed.');
+      });
+
+  }
+
+  async saveUserData(data) {
+    if (data.business_category === 'groomer') {
+      const groomerData = new Groomer({
+        storeName: data.groomer_store_name,
+        email: data.groomer_email,
+        logo: data.groomer_logo,
+        phone: data.groomer_phone,
+        password: data.password,
+        alternativePhone: data.groomer_alernative_phone,
+        bussinessRegistrationId: data.groomer_bussiness_registration_id,
+        gstNumber: data.groomer_gst_number,
+        workExperience: data.groomer_work_experience,
+        provideService: data.groomer_provider_service,
+        smsSecretKey: data.smsSecretKey,
+      });
+      return await groomerData.save();
+
+    } else if (data.business_category === 'veteran') {
+      const veteranData = new Veteran({
+        clinicName: data.veterinary_clinic_name,
+        email: data.veterinary_email,
+        password: data.password,
+        logo: data.veterinary_logo,
+        phone: data.veterinary_phone,
+        alternativePhone: data.veterinary_alternative_phone,
+        bussinessRegistrationId: data.veterinary_bussiness_registration_id,
+        gstNumber: data.veterinary_gst_number,
+        emergencyPhoneNumber: data.veterinary_emergency_phone_number,
+        smsSecretKey: data.smsSecretKey,
+      });
+      return await veteranData.save();
+    }
+  }
+
+  async doVerification(req, res) {
+    const data = req.body;
+    const business_category = data.business_category;
+
+    const user = business_category === 'groomer' ? await Groomer.findOne({ phone: data?.phone }).exec() : await Veteran.findOne({ phone: data?.phone }).exec();
+
+    if (!user) {
+      return res.json({ success: false, message: `${business_category} not found.` });
+    }
+
+    await axios.get(`${PY_SMS_VALIDATE}${data.otp}?mobile_number=${data.phone}&secret_key=${user.smsSecretKey}`)
+      .then(async (response) => {
+        if (response.data.is_valid) {
+          if (business_category === 'groomer') {
+            await Groomer.updateOne({ _id: user._id }, { $set: { isVerification: true } });
+          } else if (business_category === 'veteran') {
+            await Veteran.updateOne({ _id: user._id }, { $set: { isVerification: true } });
+          }
+          return res.json({ success: true, message: 'Verification Success' });
+        }
+        return res.json({ success: false, message: 'Verification Failed' });
+      })
+      .catch((error) => {
+        return res.json({ success: false, message: 'Verification Failed' });
+      });
+  }
+
+  async doLogin(req, res) {
+    const data = req.body;
+    const business_category = data.business_category;
+
+    const user = business_category === 'groomer' ? await Groomer.findOne({ email: data?.groomer_email }).exec() : await Veteran.findOne({ email: data?.veterinary_email }).exec();
+
+    if (!user) {
+      return res.json({ success: false, message: `${business_category} not found.` });
+    }
+
+    const isPasswordMatch = await comparePassword(data.password, user.password);
+
+    if (!isPasswordMatch) {
+      return res.json({ success: false, message: 'Incorrect Password' });
+    }
+
+    const sessionToken = await createAuthToken(user._id.toString());
+    let updatedUser;
+
+    if (business_category === 'groomer') {
+      updatedUser = await Groomer.findByIdAndUpdate({ _id: user._id }, { $set: { sessionToken } });
+    } else if (data.business_category === 'veteran') {
+      updatedUser = await Veteran.findByIdAndUpdate({ _id: user._id }, { $set: { sessionToken } });
+    }
+
+    return res.json({ success: true, message: 'Login Successfully', data: updatedUser });
   }
 }

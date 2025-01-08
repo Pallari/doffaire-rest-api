@@ -7,7 +7,12 @@ import { authentication, comparePassword, createAuthToken } from '../utils/authe
 import { PY_SMS_VALIDATE, PY_GENERATE_OTP } from '../constants/constants';
 
 export default class Auth {
-  constructor() { }
+
+  constructor() {
+    this.registration = this.registration.bind(this);
+    this.verification = this.verification.bind(this);
+    this.login = this.login.bind(this);
+  }
 
   async registration(req, res) {
     try {
@@ -19,7 +24,7 @@ export default class Auth {
 
   async verification(req, res) {
     try {
-      await this.doVerification(req, res);
+      this.doVerification(req, res);
     } catch (error) {
       apiErrorHandler(error, req, res, 'Verification failed.');
     }

@@ -3,7 +3,11 @@ import axios from "axios";
 import { apiErrorHandler } from "../handlers/errorHandler";
 import { Groomer } from "../models/Groomers";
 import { Veteran } from "../models/Veteran";
-import { authentication, comparePassword } from "../utils/authentication";
+import {
+  authentication,
+  comparePassword,
+  createAuthToken,
+} from "../utils/authentication";
 export default class Auth {
   constructor() {}
 
@@ -232,10 +236,13 @@ export default class Auth {
         if (!isPasswordMatch)
           return res.json({ success: false, message: "Incorrect Password" });
 
-        const sessionToken = await authentication(groomer._id.toString());
+        const sessionToken = await createAuthToken({ userId: groomer._id });
         const updatedGroomer = await Groomer.findByIdAndUpdate(
           { _id: groomer._id },
-          { $set: { sessionToken } }
+          { $set: { sessionToken } },
+          {
+            new: true,
+          }
         );
 
         return res.json({
@@ -262,10 +269,12 @@ export default class Auth {
         if (!isPasswordMatch)
           return res.json({ success: false, message: "Incorrect Password" });
 
-        const sessionToken = await authentication(veteran._id.toString());
+        const sessionToken = await createAuthToken({ userId: veteran._id });
+
         const updatedVeteran = await Veteran.findByIdAndUpdate(
           { _id: veteran._id },
-          { $set: { sessionToken } }
+          { $set: { sessionToken } },
+          { new: true }
         );
 
         return res.json({

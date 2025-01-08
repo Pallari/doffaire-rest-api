@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"groomer_logo\": \"2668cbe4bade489b89b38c2caf659acf/groomer/3b9496bf-e3a0-4799-8f1b-1b186cfe0a8b-dummy-profile-pic-male1.jpg\",\n    \"groomer_store_name\": \"Test\",\n    \"groomer_email\": \"pallari123@gmail.com\",\n    \"groomer_phone\": \"9033768317\",\n    \"groomer_alernative_phone\": \"9033768317\",\n    \"groomer_bussiness_registration_id\": \"9033768317\",\n    \"groomer_gst_number\": \"1234567\",\n    \"groomer_work_experience\": \"6\",\n    \"groomer_provider_service\": [\n      {\n        \"is_home_service\": true\n      },\n      {\n        \"is_center_service\": false\n      }\n    ]\n}",
+					"raw": "{\n    \"business_category\": \"groomer\",\n    \"groomer_logo\": \"2668cbe4bade489b89b38c2caf659acf/groomer/3b9496bf-e3a0-4799-8f1b-1b186cfe0a8b-dummy-profile-pic-male1.jpg\",\n    \"groomer_store_name\": \"Test\",\n    \"groomer_email\": \"pallari123@gmail.com\",\n    \"groomer_phone\": \"9033768317\",\n    \"groomer_alernative_phone\": \"9033768317\",\n    \"groomer_bussiness_registration_id\": \"9033768317\",\n    \"groomer_gst_number\": \"1234567\",\n    \"groomer_work_experience\": \"6\",\n    \"groomer_provider_service\": [\n      {\n        \"is_home_service\": true\n      },\n      {\n        \"is_center_service\": false\n      }\n    ]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -39,6 +39,42 @@
 					}
 				},
 				"url": "http://localhost:3000/auth/registration"
+			},
+			"response": []
+		},
+		{
+			"name": "Verification",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"business_category\": \"veteran\",\n    \"otp\": \"9270\",\n    \"phone\": \"9033768317\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/auth/verification"
+			},
+			"response": []
+		},
+		{
+			"name": "Veteran/Groomer Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"business_category\": \"veteran\",\n  \"email\": \"pallari123@gmail.com\",\n  \"password\": \"abcd@123\"   \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/auth/login"
 			},
 			"response": []
 		}

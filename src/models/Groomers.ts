@@ -17,6 +17,7 @@ const GroomerSchema = new mongoose.Schema(
     ],
     smsSecretKey: { type: String },
     isVerification: { type: Boolean, default: false },
+    sessionToken: { type: String },
   },
   {
     timestamps: true,

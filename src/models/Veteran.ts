@@ -13,6 +13,7 @@ const VeteranSchema = new mongoose.Schema(
     emergencyPhoneNumber: { type: String },
     smsSecretKey: { type: String },
     isVerification: { type: Boolean, default: false },
+    sessionToken: { type: String },
   },
   {
     timestamps: true,

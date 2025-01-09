@@ -31,6 +31,13 @@ export const verification = {
   })
 };
 
+export const resendOtp = {
+  body: Joi.object().keys({
+    business_category: Joi.string().required().valid('groomer', 'veteran'),
+    phone: Joi.string().required(),
+  })
+};
+
 export const login = {
   body: Joi.object().keys({
     business_category: Joi.string().required().valid('groomer', 'veteran'),

@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import VeteranCtrl from '../controllers/VeteranCtrl';
 import { validate } from '../middlewares/validate';
-import { updateDetail } from '../validators/groomerValidator';
+import { updateDetail } from '../validators/veteranValidator';
+
 class VeteranRoutes {
 
     public router = Router();

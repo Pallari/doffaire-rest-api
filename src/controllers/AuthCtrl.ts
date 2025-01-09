@@ -32,6 +32,42 @@ export default class Auth {
     }
   }
 
+  async resendOtp(req,res){
+    try {
+      const data = req.body;
+      const business_category = data.business_category;
+  
+      const user = business_category === 'groomer' ? await Groomer.findOne({ phone: data?.phone }).exec() : await Veteran.findOne({ phone: data?.phone }).exec();
+  
+      if (!user) {
+        return res.json({ success: false, message: `${business_category} not found.` });
+      }
+
+      const phoneNumber = business_category === 'groomer' ? data.groomer_phone : data.veterinary_phone;
+      const otp =  Math.floor(Math. random() * ((9999 - 1000 + 1)) + 1000)
+      await axios.get(`${TWO_FACTOR_SMS_API}/${SMS_API_KEY}/SMS/${phoneNumber}/${otp}`)
+        .then(async (response) => {
+          if (response.data.Status === 'Success') {
+            if (business_category === 'groomer') {
+              await Groomer.updateOne({ _id: user._id }, { $set: {otp} });
+            } else if (business_category === 'veteran') {
+              await Veteran.updateOne({ _id: user._id }, { $set: {otp} });
+            }
+              return res.json({ success: true, message: "OTP Update Successfully" });
+          }
+  
+          return res.json({ success: false, message: `Error while saving ${business_category}"s Data` });
+        })
+        .catch((error) => {
+          apiErrorHandler(error, req, res, 'Sending Sms failed.');
+        });
+
+
+    } catch (error) {
+      apiErrorHandler(error, req, res, 'Resend OTP failed.'); 
+    }
+  }
+
   async login(req, res) {
     try {
       this.doLogin(req, res);

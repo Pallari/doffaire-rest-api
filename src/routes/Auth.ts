@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import AuthCtrl from '../controllers/AuthCtrl';
 import { validate } from '../middlewares/validate';
-import { register, verification, login, forgotPassword } from '../validators/authValidator';
+import { register, verification, login, forgotPassword, resendOtp } from '../validators/authValidator';
 import EmailTransport from '../utils/email-transport';
 import { verifyAuthToken } from '../utils/authentication';
 class AuthRoutes {
@@ -17,6 +17,8 @@ class AuthRoutes {
     this.router.route('/registration').post(validate(register), this.authCtrl.registration);
 
     this.router.route('/verification').post(validate(verification), this.authCtrl.verification);
+
+    this.router.route('/resendOtp').post(validate(resendOtp), this.authCtrl.resendOtp);
 
     this.router.route('/login').post(validate(login), this.authCtrl.login);
 

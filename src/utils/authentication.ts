@@ -30,12 +30,12 @@ export const verifyAuthToken = async (req, res, next) => {
         req.user = userDetails;
         next();
       } catch (err) {
-        return res.status(401).json({ success: false, isInvalidToken: true, message: 'Token Invalid' });
+        return res.json({ success: false, isInvalidToken: true, message: 'Token Invalid' });
       }
     }
-    return res.status(403).json({ success: false, isInvalidToken: true, message: 'Unauthorised Request' });
+    return res.json({ success: false, isInvalidToken: true, message: 'Unauthorised Request' });
   } catch (err) {
-    return res.status(500).json({ success: false, message: 'Issue Processing Token ' });
+    return res.json({ success: false, message: 'Issue Processing Token ' });
   }
 };
 

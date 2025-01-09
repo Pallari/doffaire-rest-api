@@ -14,6 +14,7 @@ const VeteranSchema = new mongoose.Schema(
     smsSecretKey: { type: String },
     isVerification: { type: Boolean, default: false },
     sessionToken: { type: String },
+    otp: {type: String},
   },
   {
     timestamps: true,

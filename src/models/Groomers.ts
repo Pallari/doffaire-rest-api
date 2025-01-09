@@ -16,6 +16,7 @@ const GroomerSchema = new mongoose.Schema(
       { is_center_service: { type: Boolean, default: false } },
     ],
     smsSecretKey: { type: String },
+    otp: {type: String},
     isVerification: { type: Boolean, default: false },
     sessionToken: { type: String },
     groomer_showcase: {

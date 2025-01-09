@@ -3,6 +3,7 @@ import AuthCtrl from '../controllers/AuthCtrl';
 import { validate } from '../middlewares/validate';
 import { register, verification, login, forgotPassword } from '../validators/authValidator';
 import EmailTransport from '../utils/email-transport';
+import { verifyAuthToken } from '../utils/authentication';
 class AuthRoutes {
   public router = Router();
   private authCtrl = new AuthCtrl();
@@ -20,6 +21,8 @@ class AuthRoutes {
     this.router.route('/login').post(validate(login), this.authCtrl.login);
 
     this.router.route('/forgotPassword').post(validate(forgotPassword), this.authCtrl.forgotPassword);
+
+    this.router.route('/logout').post(verifyAuthToken ,this.authCtrl.logout);
 
     this.router.route('/send/email').post(this.emailTransport.sentVerificationEmail);
   }

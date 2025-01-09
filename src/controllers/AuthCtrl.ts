@@ -4,7 +4,7 @@ import { apiErrorHandler } from '../handlers/errorHandler';
 import { Groomer } from '../models/Groomers';
 import { Veteran } from '../models/Veteran';
 import { authentication, comparePassword, createAuthToken, generatePassword } from '../utils/authentication';
-import { PY_SMS_VALIDATE, PY_GENERATE_OTP } from '../constants/constants-info';
+import { PY_SMS_VALIDATE, PY_GENERATE_OTP, TWO_FACTOR_SMS_API, SMS_API_KEY } from '../constants/constants-info';
 
 export default class Auth {
 
@@ -13,6 +13,7 @@ export default class Auth {
     this.verification = this.verification.bind(this);
     this.login = this.login.bind(this);
     this.forgotPassword = this.forgotPassword.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   async registration(req, res) {
@@ -47,6 +48,18 @@ export default class Auth {
     }
   }
 
+  // Pending
+  async logout(req,res) {
+    try {
+      let user = req.user._id;
+      console.log(user);
+      return res.json({ success: true, message: "Logout Successfully" });
+    } catch (error) {
+      apiErrorHandler(error, req, res, 'Logout failed.');
+  
+    }
+  }
+
   async doRegisterUser(req, res) {
     const data = req.body;
     const business_category = data.business_category;
@@ -62,10 +75,10 @@ export default class Auth {
     password = await authentication(password);
 
     const phoneNumber = business_category === 'groomer' ? data.groomer_phone : data.veterinary_phone;
-
-    await axios.get(`${PY_GENERATE_OTP}?mobile_number=${phoneNumber}`)
+    const otp =  Math.floor(Math. random() * ((9999 - 1000 + 1)) + 1000)
+    await axios.get(`${TWO_FACTOR_SMS_API}/${SMS_API_KEY}/SMS/${phoneNumber}/${otp}`)
       .then(async (response) => {
-        data.smsSecretKey = response.data.secret_key;
+        data.otp = otp;
         data.password = password;
         const userData = await this.saveUserData(data);
 
@@ -125,10 +138,9 @@ export default class Auth {
       return res.json({ success: false, message: `${business_category} not found.` });
     }
 
-    await axios.get(`${PY_SMS_VALIDATE}${data.otp}?mobile_number=${data.phone}&secret_key=${user.smsSecretKey}`)
+    await axios.get(`${TWO_FACTOR_SMS_API}/${SMS_API_KEY}/SMS/VERIFY3/${data.phone}/${data.otp}`)
       .then(async (response) => {
-
-        if (response.data.is_valid) {
+        if (response.data.Status === 'Success') {
           if (business_category === 'groomer') {
             await Groomer.updateOne({ _id: user._id }, { $set: { isVerification: true } });
           } else if (business_category === 'veteran') {

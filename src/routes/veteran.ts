@@ -17,9 +17,9 @@ class VeteranRoutes {
         this.router.route('/').get(this.veteranCtrl.getVeteran);
 
         // POST APIs
+        this.router.route('/update').put(validate(updateDetail), this.veteranCtrl.updateVeteran);
 
         // PUT APIs
-        this.router.route('/update').put(validate(updateDetail), this.veteranCtrl.updateVeteran);
     
         // DELETE APIs
         this.router.route("/delete").post(this.veteranCtrl.deleteVeteranInfo);

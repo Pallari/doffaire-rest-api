@@ -57,9 +57,10 @@ export default class Auth {
       return res.json({ success: false, message: `${business_category} already registered.` });
     }
 
-   
-    let password =  await generatePassword()
+    let password =  await generatePassword();
+
     password = await authentication(password);
+
     const phoneNumber = business_category === 'groomer' ? data.groomer_phone : data.veterinary_phone;
 
     await axios.get(`${PY_GENERATE_OTP}?mobile_number=${phoneNumber}`)
@@ -123,8 +124,6 @@ export default class Auth {
     if (!user) {
       return res.json({ success: false, message: `${business_category} not found.` });
     }
-
-    
 
     await axios.get(`${PY_SMS_VALIDATE}${data.otp}?mobile_number=${data.phone}&secret_key=${user.smsSecretKey}`)
       .then(async (response) => {
@@ -194,7 +193,6 @@ export default class Auth {
     }
 
     return res.json({ success: true, message: 'Password Update Successfully' });
-
   }
 
 }

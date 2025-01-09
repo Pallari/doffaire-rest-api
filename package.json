@@ -5,7 +5,7 @@
   "scripts": {
     "start": "npm run transpile && node ./dist/server.js",
     "dev": "concurrently \"npm:watch\" \"npm:serve\"",
-    "serve": "nodemon ./dist/server.js",
+    "serve": "nodemon",
     "watch": "tsc -w",
     "transpile": "tsc",
     "lint": "tslint -c tslint.json -p tsconfig.json"

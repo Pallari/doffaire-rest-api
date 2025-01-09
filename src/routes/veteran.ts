@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import VeteranCtrl from '../controllers/VeteranCtrl';
+import { validate } from '../middlewares/validate';
+import { updateDetail } from '../validators/groomerValidator';
 class VeteranRoutes {
 
     public router = Router();
@@ -12,15 +14,15 @@ class VeteranRoutes {
 
     intializeRoutes() {
         // GET APIs
-        this.router.route("/").get(this.veteranCtrl.getVeteran);
+        this.router.route('/veteran').get(this.veteranCtrl.getVeteran);
 
         // POST APIs
-        // this.router.route("/update").post(this.veteranCtrl.updateVeteran);
+        this.router.route('/veteran/update').put(validate(updateDetail), this.veteranCtrl.updateVeteran);
 
         // PUT APIs
     
         // DELETE APIs
-        this.router.route("/delete").post(this.veteranCtrl.deleteVeteranInfo);
+        this.router.route("/veteran/delete").post(this.veteranCtrl.deleteVeteranInfo);
     }
 }
 

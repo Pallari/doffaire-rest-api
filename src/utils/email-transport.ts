@@ -6,6 +6,7 @@ import { MAIL_AUTH_INFO } from '../constants/constants-info';
 export default class EmailTransport {
 
     mailTransporter = nodemailer.createTransport({
+        service: 'gmail',
         host: 'smtp.gmail.com',
         port: 465,
         secure: true,

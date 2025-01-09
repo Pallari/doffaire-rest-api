@@ -77,6 +77,27 @@
 				"url": "http://localhost:3000/auth/login"
 			},
 			"response": []
+		},
+		{
+			"name": "Update Detail for Groomer",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"677f4fe439e48c5097766668\",\n   \"groomer_services\": [\n    {\n      \"groomer_service_image\": \"4a9d87348b754aa0ab1ae120cd406da9/groomer/1baec78b-b708-4e13-b024-da2e78f3f2fe-image.jpg\",\n      \"groomer_service_name\": \"Test\",\n      \"groomer_service_duration\": \"30\",\n      \"groomer_service_price\": \"test\",\n      \"groomer_service_size\": \"medium\",\n      \"groomer_service_description\": \"test\",\n      \"service_id\": 1\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/groomer/updateGroomer"
+			},
+			"response": []
 		}
 	]
 }

@@ -1,7 +1,6 @@
-import { Request, Response, NextFunction } from "express";
-import { apiErrorHandler } from "../handlers/errorHandler";
-import { Veteran } from "../models/Veteran";
-
+import { Request, Response, NextFunction } from 'express';
+import { apiErrorHandler } from '../handlers/errorHandler';
+import { Veteran } from '../models/Veteran';
 export default class VeteranCtrl {
   constructor() {}
 
@@ -17,7 +16,7 @@ export default class VeteranCtrl {
 
       // If user exist, send the response
       if (veteran)
-        return res.json({ success: false, message: "User Already registered" });
+        return res.json({ success: false, message: 'User Already registered' });
 
       const groomerData = new Veteran({
         storeName: data.groomer_store_name,
@@ -38,26 +37,26 @@ export default class VeteranCtrl {
 
       return res.json({
         success: false,
-        message: 'Error while saving groomer"s Data',
+        message: 'Error while saving groomer"s Data'
       });
     } catch (error) {
-      apiErrorHandler(error, req, res, "Registration failed.");
+      apiErrorHandler(error, req, res, 'Registration failed.');
     }
   }
  
   async getVeteran(req: Request, res: Response, next: NextFunction) {
     try {
-      res.json({ success: true, data: "success" });
+      res.json({ success: true, data: 'success' });
     } catch (error) {
-      apiErrorHandler(error, req, res, "Fetch All groomer failed.");
+      apiErrorHandler(error, req, res, 'Fetch All groomer failed.');
     }
   }
 
   async deleteVeteranInfo(req: Request, res: Response, next: NextFunction) {
     try {
-      res.json({ success: true, data: "success" });
+      res.json({ success: true, data: 'success' });
     } catch (error) {
-      apiErrorHandler(error, req, res, "Fetch All groomer failed.");
+      apiErrorHandler(error, req, res, 'Fetch All groomer failed.');
     }
   }
 }

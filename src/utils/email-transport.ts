@@ -1,26 +1,33 @@
-import { apiErrorHandler } from '../handlers/errorHandler';
+import { apiErrorHandler, apiSuccessHandler } from '../handlers/errorHandler';
 import { Request, Response } from 'express';
 import nodemailer from 'nodemailer';
+import { MAIL_AUTH_INFO } from '../constants/constants-info';
 
 export default class EmailTransport {
 
     mailTransporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
+        host: 'smtp.gmail.com',
         port: 465,
         secure: true,
         auth: {
-            type: "OAuth2",
-            user: "piyush.dholariya@gmail.com",
-            accessToken: "ya29.Xx_XX0xxxxx-xX0X0XxXXxXxXXXxX0x"
+            type: 'OAuth2',
+            user: MAIL_AUTH_INFO.user,
+            clientId: MAIL_AUTH_INFO.clientId,
+            clientSecret: MAIL_AUTH_INFO.clientSecret,
+            refreshToken: MAIL_AUTH_INFO.refreshToken,
+            accessToken: MAIL_AUTH_INFO.accessToken,
+            expires: MAIL_AUTH_INFO.expires
         }
     });
 
-    constructor() { }
+    constructor() {
+        this.sentVerificationEmail = this.sentVerificationEmail.bind(this);
+    }
 
     async sentVerificationEmail(req: Request, res: Response) {
         try {
             const mailDetails = {
-                from: 'xyz@gmail.com',
+                from: 'admin@doffair.com',
                 to: 'piyush.dholariya@gmail.com',
                 subject: 'Test mail',
                 text: 'Node.js testing mail for doffair'
@@ -28,9 +35,9 @@ export default class EmailTransport {
 
             this.mailTransporter.sendMail(mailDetails, (err, data) => {
                 if (err) {
-                    console.log('Error Occurs', err);
+                    apiErrorHandler(err, req, res, 'Error Occurs.');
                 } else {
-                    console.log('Email sent successfully', data);
+                    apiSuccessHandler(res, 'Email sent successfully', data);
                 }
             });
         } catch (error) {

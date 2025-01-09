@@ -1,12 +1,10 @@
 import { Router } from 'express';
-
 import VeteranCtrl from '../controllers/VeteranCtrl';
-
 class VeteranRoutes {
 
-    router = Router();
+    public router = Router();
 
-    veteranCtrl = new VeteranCtrl();
+    private veteranCtrl = new VeteranCtrl();
 
     constructor() {
         this.intializeRoutes();

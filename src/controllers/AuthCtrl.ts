@@ -4,7 +4,7 @@ import { apiErrorHandler } from '../handlers/errorHandler';
 import { Groomer } from '../models/Groomers';
 import { Veteran } from '../models/Veteran';
 import { authentication, comparePassword, createAuthToken } from '../utils/authentication';
-import { PY_SMS_VALIDATE, PY_GENERATE_OTP } from '../constants/constants';
+import { PY_SMS_VALIDATE, PY_GENERATE_OTP } from '../constants/constants-info';
 
 export default class Auth {
 

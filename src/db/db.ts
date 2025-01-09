@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const dbUrl: string = process.env.DB_URL || "";
+const dbUrl: string = process.env.DB_URL || '';
 export class DBConnect {
   public connectedDb;
 
@@ -16,10 +16,10 @@ export class DBConnect {
       .connect(dbUrl)
       .then((db) => {
         this.connectedDb = db;
-        console.log("Connected to MongoDB");
+        console.log('Connected to MongoDB');
       })
       .catch((error) => {
-        console.error("Error connecting to MongoDB:", error);
+        console.error('Error connecting to MongoDB:', error);
       });
   }
 }

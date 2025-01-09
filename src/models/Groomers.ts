@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const GroomerSchema = new mongoose.Schema(
   {
@@ -24,4 +24,4 @@ const GroomerSchema = new mongoose.Schema(
   }
 );
 
-export const Groomer = mongoose.model("groomers", GroomerSchema); //Interaction with DB
+export const Groomer = mongoose.model('groomers', GroomerSchema); //Interaction with DB

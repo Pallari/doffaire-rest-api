@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const VeteranSchema = new mongoose.Schema(
   {
@@ -20,4 +20,4 @@ const VeteranSchema = new mongoose.Schema(
   }
 );
 
-export const Veteran = mongoose.model("veteran", VeteranSchema); //Interaction with DB
+export const Veteran = mongoose.model('veteran', VeteranSchema); //Interaction with DB

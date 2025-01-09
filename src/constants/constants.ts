@@ -1,2 +1,0 @@
-export const PY_SMS_VALIDATE = 'https://doffair-python-apis.azurewebsites.net/otp/sms/validate-otp/';
-export const PY_GENERATE_OTP = 'https://doffair-python-apis.azurewebsites.net/otp/sms/generate-otp';

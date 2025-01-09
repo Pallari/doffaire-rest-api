@@ -1,8 +1,8 @@
-import Joi from "joi";
+import Joi from 'joi';
 
 export const register = {
   body: Joi.object().keys({
-    business_category: Joi.string().required().valid("groomer", "veteran"),
+    business_category: Joi.string().required().valid('groomer', 'veteran'),
     groomer_email: Joi.string().email(),
     groomer_logo: Joi.string(),
     groomer_store_name: Joi.string(),
@@ -20,21 +20,21 @@ export const register = {
     veterinary_bussiness_registration_id: Joi.string(),
     veterinary_gst_number: Joi.string(),
     veterinary_emergency_phone_number: Joi.string(),
-  }),
+  })
 };
 
 export const verification = {
   body: Joi.object().keys({
-    business_category: Joi.string().required().valid("groomer", "veteran"),
+    business_category: Joi.string().required().valid('groomer', 'veteran'),
     otp: Joi.number().required(),
     phone: Joi.string().required(),
-  }),
+  })
 };
 
 export const login = {
   body: Joi.object().keys({
-    business_category: Joi.string().required().valid("groomer", "veteran"),
+    business_category: Joi.string().required().valid('groomer', 'veteran'),
     email: Joi.string().required(),
     password: Joi.string().required(),
-  }),
+  })
 };

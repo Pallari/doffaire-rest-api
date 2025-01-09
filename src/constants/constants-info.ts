@@ -2,6 +2,7 @@ export const PY_SMS_VALIDATE = 'https://doffair-python-apis.azurewebsites.net/ot
 export const PY_GENERATE_OTP = 'https://doffair-python-apis.azurewebsites.net/otp/sms/generate-otp';
 
 
+
 export const MAIL_AUTH_INFO = {
     user: 'admin@doffair.com',
     clientId: '582874779223-5r5299q39qh0vh7ndebp5008e7qf0c3j.apps.googleusercontent.com',
@@ -10,3 +11,5 @@ export const MAIL_AUTH_INFO = {
     accessToken: 'ya29.Xx_XX0xxxxx-xX0X0XxXXxXxXXXxX0x',
     expires: 1484314697598
 };
+
+export const RANDOM_STRING = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*()_+';

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import AuthCtrl from '../controllers/AuthCtrl';
 import { validate } from '../middlewares/validate';
-import { register, verification, login } from '../validators/authValidator';
+import { register, verification, login, forgotPassword } from '../validators/authValidator';
 import EmailTransport from '../utils/email-transport';
 class AuthRoutes {
   public router = Router();
@@ -19,7 +19,7 @@ class AuthRoutes {
 
     this.router.route('/login').post(validate(login), this.authCtrl.login);
 
-    this.router.route('/forgotPassword').post(validate(login), this.authCtrl.forgotPassword);
+    this.router.route('/forgotPassword').post(validate(forgotPassword), this.authCtrl.forgotPassword);
 
     this.router.route('/send/email').post(this.emailTransport.sentVerificationEmail);
   }

@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { RANDOM_STRING } from '../constants/constants-info';
 
 const tokenPrivateKey = 'DoFfAIrE';
 const tokenExpiry = '30d';
@@ -37,3 +38,14 @@ export const verifyAuthToken = async (req, res, next) => {
     return res.status(500).json({ success: false, message: 'Issue Processing Token ' });
   }
 };
+
+export const generatePassword = async() => {
+  
+const string_length = 8;
+let randomstring = '';
+for (let i=0; i<string_length; i++) {
+    let rnum = Math.floor(Math.random() * RANDOM_STRING.length);
+    randomstring += RANDOM_STRING.substring(rnum,rnum+1);
+}
+return randomstring;
+}

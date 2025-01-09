@@ -3,7 +3,7 @@ import axios from 'axios';
 import { apiErrorHandler } from '../handlers/errorHandler';
 import { Groomer } from '../models/Groomers';
 import { Veteran } from '../models/Veteran';
-import { authentication, comparePassword, createAuthToken } from '../utils/authentication';
+import { authentication, comparePassword, createAuthToken, generatePassword } from '../utils/authentication';
 import { PY_SMS_VALIDATE, PY_GENERATE_OTP } from '../constants/constants-info';
 
 export default class Auth {
@@ -12,6 +12,7 @@ export default class Auth {
     this.registration = this.registration.bind(this);
     this.verification = this.verification.bind(this);
     this.login = this.login.bind(this);
+    this.forgotPassword = this.forgotPassword.bind(this);
   }
 
   async registration(req, res) {
@@ -32,7 +33,7 @@ export default class Auth {
 
   async login(req, res) {
     try {
-      this.doLogin(res, res);
+      this.doLogin(req, res);
     } catch (error) {
       apiErrorHandler(error, req, res, 'Login failed.');
     }
@@ -40,6 +41,7 @@ export default class Auth {
 
   async forgotPassword(req, res) {
     try {
+      this.doForgotPassword(req,res)
     } catch (error) {
       apiErrorHandler(error, req, res, 'Forgot Password failed.');
     }
@@ -55,7 +57,10 @@ export default class Auth {
       return res.json({ success: false, message: `${business_category} already registered.` });
     }
 
-    const password = await authentication('abcd@123');
+   
+    let password =  await generatePassword()
+    password = await authentication(password);
+    console.log(`---password------`,password)
     const phoneNumber = business_category === 'groomer' ? data.groomer_phone : data.veterinary_phone;
 
     await axios.get(`${PY_GENERATE_OTP}?mobile_number=${phoneNumber}`)
@@ -120,8 +125,13 @@ export default class Auth {
       return res.json({ success: false, message: `${business_category} not found.` });
     }
 
+    
+    console.log(`---data--`,data)
+
     await axios.get(`${PY_SMS_VALIDATE}${data.otp}?mobile_number=${data.phone}&secret_key=${user.smsSecretKey}`)
       .then(async (response) => {
+        console.log(`---response----`,response)
+
         if (response.data.is_valid) {
           if (business_category === 'groomer') {
             await Groomer.updateOne({ _id: user._id }, { $set: { isVerification: true } });
@@ -130,9 +140,11 @@ export default class Auth {
           }
           return res.json({ success: true, message: 'Verification Success' });
         }
+        console.log(`-------`)
         return res.json({ success: false, message: 'Verification Failed' });
       })
       .catch((error) => {
+        console.log(`----error---`,error);
         return res.json({ success: false, message: 'Verification Failed' });
       });
   }
@@ -164,4 +176,31 @@ export default class Auth {
 
     return res.json({ success: true, message: 'Login Successfully', data: updatedUser });
   }
+
+  async doForgotPassword(req,res) {
+    const data = req.body;
+    const business_category = data.business_category;
+
+    const user = business_category === 'groomer' ? await Groomer.findOne({ email: data.email }).exec() : await Veteran.findOne({ email: data.email }).exec();
+
+    if (!user) {
+      return res.json({ success: false, message: `${business_category} not found.` });
+    }
+
+    let password = await generatePassword()
+    console.log(`---password------`,password)
+    password = await authentication(password);
+    
+    // TODO: code for sending password through email
+
+    if (business_category === 'groomer') {
+      await Groomer.findByIdAndUpdate({ _id: user._id }, { $set: { password } });
+    } else if (data.business_category === 'veteran') {
+      await Veteran.findByIdAndUpdate({ _id: user._id }, { $set: { password } });
+    }
+
+    return res.json({ success: true, message: 'Password Update Successfully' });
+
+  }
+
 }

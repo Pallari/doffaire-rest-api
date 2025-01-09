@@ -26,7 +26,7 @@ export const register = {
 export const verification = {
   body: Joi.object().keys({
     business_category: Joi.string().required().valid('groomer', 'veteran'),
-    otp: Joi.number().required(),
+    otp: Joi.string().required(),
     phone: Joi.string().required(),
   })
 };
@@ -36,5 +36,12 @@ export const login = {
     business_category: Joi.string().required().valid('groomer', 'veteran'),
     email: Joi.string().required(),
     password: Joi.string().required(),
+  })
+};
+
+export const forgotPassword = {
+  body: Joi.object().keys({
+    business_category: Joi.string().required().valid('groomer', 'veteran'),
+    email: Joi.string().required(),
   })
 };

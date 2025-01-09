@@ -60,7 +60,6 @@ export default class Auth {
    
     let password =  await generatePassword()
     password = await authentication(password);
-    console.log(`---password------`,password)
     const phoneNumber = business_category === 'groomer' ? data.groomer_phone : data.veterinary_phone;
 
     await axios.get(`${PY_GENERATE_OTP}?mobile_number=${phoneNumber}`)
@@ -126,11 +125,9 @@ export default class Auth {
     }
 
     
-    console.log(`---data--`,data)
 
     await axios.get(`${PY_SMS_VALIDATE}${data.otp}?mobile_number=${data.phone}&secret_key=${user.smsSecretKey}`)
       .then(async (response) => {
-        console.log(`---response----`,response)
 
         if (response.data.is_valid) {
           if (business_category === 'groomer') {
@@ -140,11 +137,9 @@ export default class Auth {
           }
           return res.json({ success: true, message: 'Verification Success' });
         }
-        console.log(`-------`)
         return res.json({ success: false, message: 'Verification Failed' });
       })
       .catch((error) => {
-        console.log(`----error---`,error);
         return res.json({ success: false, message: 'Verification Failed' });
       });
   }
@@ -188,7 +183,6 @@ export default class Auth {
     }
 
     let password = await generatePassword()
-    console.log(`---password------`,password)
     password = await authentication(password);
     
     // TODO: code for sending password through email

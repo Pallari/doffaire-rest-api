@@ -13,9 +13,9 @@ class GroomerRoutes {
 
   intializeRoutes() {
     
-    this.router.route('/groomer').get(this.groomerCtrl.getGroomer);
+    this.router.route('/').get(this.groomerCtrl.getGroomer);
 
-    this.router.route('/groomer/update').put(validate(updateDetail), this.groomerCtrl.updateGroomer);
+    this.router.route('/update').put(validate(updateDetail), this.groomerCtrl.updateGroomer);
   }
 }
 

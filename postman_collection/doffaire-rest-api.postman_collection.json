@@ -7,6 +7,35 @@
 	},
 	"item": [
 		{
+			"name": "2Factor SMS",
+			"item": [
+				{
+					"name": "Verify Otp",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": "https://2factor.in/API/V1/44d09d5a-660e-11ef-8b60-0200cd936042/SMS/VERIFY3/9033768317/2243"
+					},
+					"response": []
+				},
+				{
+					"name": "Send Otp",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": "https://2factor.in/API/V1/44d09d5a-660e-11ef-8b60-0200cd936042/SMS/9033768317/2243"
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Groomer Registration",
 			"request": {
 				"method": "POST",
@@ -96,6 +125,75 @@
 					}
 				},
 				"url": "http://localhost:3000/groomer/updateGroomer"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Detail for Veteran",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"677e48583be6fd278a438bbc\",\n   \"veterinary_clinic_location\": {\n        \"veterinary_apartment_or_building\": \"aa\",\n        \"veterinary_area_street_road\": \"aa\",\n        \"veterinary_landmark\": \"Ananda Palit Rd, Entally, Kolkata, West Bengal 700014, India\",\n        \"veterinary_latitude\": \"22.5563614\",\n        \"veterinary_longitude\": \"88.3717726\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/veteran/update"
+			},
+			"response": []
+		},
+		{
+			"name": "Veteran/Groomer Logout",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzgwZmQ3YjFkZGMxM2Y2Mzg5M2Q3ZTQiLCJpYXQiOjE3MzY1MDY4NDIsImV4cCI6MTczNjU0Mjg0Mn0.3n9k9N0SfiWo4DEesnZ3kzPnPKHnsHdmbcW29umCNEY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"business_category\": \"veteran\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/auth/logout"
+			},
+			"response": []
+		},
+		{
+			"name": "Veteran/Groomer Forgot Password",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"business_category\": \"groomer\",\n    \"email\": \"pallari26@gmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/auth/forgotPassword"
 			},
 			"response": []
 		}

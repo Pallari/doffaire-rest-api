@@ -5,9 +5,11 @@ import { Groomer } from '../models/Groomers';
 import { Veteran } from '../models/Veteran';
 import { authentication, comparePassword, createAuthToken, generatePassword } from '../utils/authentication';
 import { PY_SMS_VALIDATE, PY_GENERATE_OTP, TWO_FACTOR_SMS_API, SMS_API_KEY } from '../constants/constants-info';
+import EmailTransport from '../utils/email-transport';
 
 export default class Auth {
 
+  emailTransport = new EmailTransport();
   constructor() {
     this.registration = this.registration.bind(this);
     this.verification = this.verification.bind(this);
@@ -86,8 +88,21 @@ export default class Auth {
   // Pending
   async logout(req, res) {
     try {
-      let user = req.user._id;
-      console.log(user);
+      let userId = req.user._id;
+      const business_category = req.body.business_category;
+
+      const user = business_category === 'groomer' ? await Groomer.findById(userId).exec() : await Veteran.findById(userId).exec();
+  
+      if (!user) {
+        return res.json({ success: false, message: `${business_category} not found.` });
+      }
+
+      if (business_category === 'groomer') {
+        await Groomer.findByIdAndUpdate({ _id: userId }, { $set: { sessionToken : ""} });
+      } else if (business_category === 'veteran') {
+         await Veteran.findByIdAndUpdate({ _id: userId }, { $set: { sessionToken: "" } });
+      }
+
       return res.json({ success: true, message: "Logout Successfully" });
     } catch (error) {
       apiErrorHandler(error, req, res, 'Logout failed.');
@@ -106,7 +121,13 @@ export default class Auth {
     }
 
     let password = await generatePassword();
-
+    const emailData = {
+      to:business_category === 'groomer' ? data.groomer_email : data.veterinary_email,
+      subject: `Doaffair ${business_category} Password`,
+      text: `Your Password for Doaffaire is ${password}.`
+    }
+    
+    await this.emailTransport.sentVerificationEmail(emailData)
     password = await authentication(password);
 
     const phoneNumber = business_category === 'groomer' ? data.groomer_phone : data.veterinary_phone;
@@ -206,13 +227,12 @@ export default class Auth {
       return res.json({ success: false, message: 'Incorrect Password' });
     }
 
-    const sessionToken = await createAuthToken(user._id.toString());
+    const sessionToken = await createAuthToken({ _id: (user._id).toString() });
     let updatedUser;
-
     if (business_category === 'groomer') {
-      updatedUser = await Groomer.findByIdAndUpdate({ _id: user._id }, { $set: { sessionToken } });
-    } else if (data.business_category === 'veteran') {
-      updatedUser = await Veteran.findByIdAndUpdate({ _id: user._id }, { $set: { sessionToken } });
+      updatedUser = await Groomer.findByIdAndUpdate({ _id: user._id }, { $set: { sessionToken } },{new: true});
+    } else if (business_category === 'veteran') {
+      updatedUser = await Veteran.findByIdAndUpdate({ _id: user._id }, { $set: { sessionToken } },{new: true});
     }
 
     return res.json({ success: true, message: 'Login Successfully', data: updatedUser });
@@ -229,9 +249,14 @@ export default class Auth {
     }
 
     let password = await generatePassword()
+    const emailData = {
+      to: data.email ,
+      subject: `Doaffair ${business_category} Password`,
+      text: `Your Password for Doaffaire is ${password}.`
+    }
+    
+    await this.emailTransport.sentVerificationEmail(emailData)
     password = await authentication(password);
-
-    // TODO: code for sending password through email
 
     if (business_category === 'groomer') {
       await Groomer.findByIdAndUpdate({ _id: user._id }, { $set: { password } });

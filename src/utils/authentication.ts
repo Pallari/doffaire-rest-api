@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import { RANDOM_STRING } from '../constants/constants-info';
 
 const tokenPrivateKey = 'DoFfAIrE';
-const tokenExpiry = '30d';
+const tokenExpiry = '10h';
 
 //creates an HMAC (Hash-based Message Authentication Code) object using the SHA-256
 export const authentication = async (password) => {
@@ -16,9 +16,9 @@ export const comparePassword = async (password, encryptedPassword) => {
 };
 
 export const createAuthToken = async (data) => {
-  return jwt.sign(data, tokenPrivateKey, {
+  return jwt.sign(data, tokenPrivateKey,  {
     expiresIn: tokenExpiry
-  });
+});
 };
 
 // ToDo: check for headers
@@ -28,7 +28,7 @@ export const verifyAuthToken = async (req, res, next) => {
       try {
         const userDetails = jwt.verify(req.header('Authorization'), tokenPrivateKey);
         req.user = userDetails;
-        next();
+       return next()
       } catch (err) {
         return res.json({ success: false, isInvalidToken: true, message: 'Token Invalid' });
       }

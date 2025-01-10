@@ -1,6 +1,9 @@
 import nodemailer from 'nodemailer';
 import { MAIL_AUTH_INFO } from '../constants/constants-info';
 export default class EmailTransport {
+    static sentVerificationEmail(emailData: { to: any; subject: string; text: string; }) {
+      throw new Error('Method not implemented.');
+    }
 
     mailTransporter = nodemailer.createTransport({
         service: MAIL_AUTH_INFO.service,

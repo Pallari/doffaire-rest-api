@@ -2,12 +2,10 @@ import { Router } from 'express';
 import AuthCtrl from '../controllers/AuthCtrl';
 import { validate } from '../middlewares/validate';
 import { register, verification, login, forgotPassword, resendOtp } from '../validators/authValidator';
-import EmailTransport from '../utils/email-transport';
 import { verifyAuthToken } from '../utils/authentication';
 class AuthRoutes {
   public router = Router();
   private authCtrl = new AuthCtrl();
-  private emailTransport = new EmailTransport();
 
   constructor() {
     this.intializeRoutes();
@@ -24,9 +22,7 @@ class AuthRoutes {
 
     this.router.route('/forgotPassword').post(validate(forgotPassword), this.authCtrl.forgotPassword);
 
-    this.router.route('/logout').post(verifyAuthToken ,this.authCtrl.logout);
-
-    this.router.route('/send/email').post(this.emailTransport.sentVerificationEmail);
+    this.router.route('/logout').post(verifyAuthToken, this.authCtrl.logout);
   }
 }
 export default new AuthRoutes().router;

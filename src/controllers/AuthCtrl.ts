@@ -32,39 +32,38 @@ export default class Auth {
     }
   }
 
-  async resendOtp(req,res){
+  async resendOtp(req, res) {
     try {
       const data = req.body;
       const business_category = data.business_category;
-  
+
       const user = business_category === 'groomer' ? await Groomer.findOne({ phone: data?.phone }).exec() : await Veteran.findOne({ phone: data?.phone }).exec();
-  
+
       if (!user) {
         return res.json({ success: false, message: `${business_category} not found.` });
       }
 
       const phoneNumber = business_category === 'groomer' ? data.groomer_phone : data.veterinary_phone;
-      const otp =  Math.floor(Math. random() * ((9999 - 1000 + 1)) + 1000)
+
+      const otp = Math.floor(Math.random() * ((9999 - 1000 + 1)) + 1000)
+
       await axios.get(`${TWO_FACTOR_SMS_API}/${SMS_API_KEY}/SMS/${phoneNumber}/${otp}`)
         .then(async (response) => {
           if (response.data.Status === 'Success') {
             if (business_category === 'groomer') {
-              await Groomer.updateOne({ _id: user._id }, { $set: {otp} });
+              await Groomer.updateOne({ _id: user._id }, { $set: { otp } });
             } else if (business_category === 'veteran') {
-              await Veteran.updateOne({ _id: user._id }, { $set: {otp} });
+              await Veteran.updateOne({ _id: user._id }, { $set: { otp } });
             }
-              return res.json({ success: true, message: "OTP Update Successfully" });
+            return res.json({ success: true, message: "OTP Update Successfully" });
           }
-  
           return res.json({ success: false, message: `Error while saving ${business_category}"s Data` });
         })
         .catch((error) => {
           apiErrorHandler(error, req, res, 'Sending Sms failed.');
         });
-
-
     } catch (error) {
-      apiErrorHandler(error, req, res, 'Resend OTP failed.'); 
+      apiErrorHandler(error, req, res, 'Resend OTP failed.');
     }
   }
 
@@ -78,21 +77,21 @@ export default class Auth {
 
   async forgotPassword(req, res) {
     try {
-      this.doForgotPassword(req,res)
+      this.doForgotPassword(req, res)
     } catch (error) {
       apiErrorHandler(error, req, res, 'Forgot Password failed.');
     }
   }
 
   // Pending
-  async logout(req,res) {
+  async logout(req, res) {
     try {
       let user = req.user._id;
       console.log(user);
       return res.json({ success: true, message: "Logout Successfully" });
     } catch (error) {
       apiErrorHandler(error, req, res, 'Logout failed.');
-  
+
     }
   }
 
@@ -106,12 +105,12 @@ export default class Auth {
       return res.json({ success: false, message: `${business_category} already registered.` });
     }
 
-    let password =  await generatePassword();
+    let password = await generatePassword();
 
     password = await authentication(password);
 
     const phoneNumber = business_category === 'groomer' ? data.groomer_phone : data.veterinary_phone;
-    const otp =  Math.floor(Math. random() * ((9999 - 1000 + 1)) + 1000)
+    const otp = Math.floor(Math.random() * ((9999 - 1000 + 1)) + 1000)
     await axios.get(`${TWO_FACTOR_SMS_API}/${SMS_API_KEY}/SMS/${phoneNumber}/${otp}`)
       .then(async (response) => {
         data.otp = otp;
@@ -219,7 +218,7 @@ export default class Auth {
     return res.json({ success: true, message: 'Login Successfully', data: updatedUser });
   }
 
-  async doForgotPassword(req,res) {
+  async doForgotPassword(req, res) {
     const data = req.body;
     const business_category = data.business_category;
 
@@ -231,7 +230,7 @@ export default class Auth {
 
     let password = await generatePassword()
     password = await authentication(password);
-    
+
     // TODO: code for sending password through email
 
     if (business_category === 'groomer') {

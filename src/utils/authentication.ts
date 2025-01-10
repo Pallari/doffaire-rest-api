@@ -39,13 +39,12 @@ export const verifyAuthToken = async (req, res, next) => {
   }
 };
 
-export const generatePassword = async() => {
-  
-const string_length = 8;
-let randomstring = '';
-for (let i=0; i<string_length; i++) {
-    let rnum = Math.floor(Math.random() * RANDOM_STRING.length);
-    randomstring += RANDOM_STRING.substring(rnum,rnum+1);
-}
-return randomstring;
+export const generatePassword = async () => {
+  const string_length = 8;
+  let randomstring = '';
+  for (let i = 0; i < string_length; i++) {
+    const rnum = Math.floor(Math.random() * RANDOM_STRING.length);
+    randomstring += RANDOM_STRING.substring(rnum, rnum + 1);
+  }
+  return randomstring;
 }

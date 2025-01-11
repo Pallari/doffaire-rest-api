@@ -92,18 +92,18 @@ export default class Auth {
       const business_category = req.body.business_category;
 
       const user = business_category === 'groomer' ? await Groomer.findById(userId).exec() : await Veteran.findById(userId).exec();
-  
+
       if (!user) {
         return res.json({ success: false, message: `${business_category} not found.` });
       }
 
       if (business_category === 'groomer') {
-        await Groomer.findByIdAndUpdate({ _id: userId }, { $set: { sessionToken : ""} });
+        await Groomer.findByIdAndUpdate({ _id: userId }, { $set: { sessionToken: '' } });
       } else if (business_category === 'veteran') {
-         await Veteran.findByIdAndUpdate({ _id: userId }, { $set: { sessionToken: "" } });
+        await Veteran.findByIdAndUpdate({ _id: userId }, { $set: { sessionToken: '' } });
       }
 
-      return res.json({ success: true, message: "Logout Successfully" });
+      return res.json({ success: true, message: 'Logout Successfully' });
     } catch (error) {
       apiErrorHandler(error, req, res, 'Logout failed.');
 
@@ -117,16 +117,16 @@ export default class Auth {
     const user = business_category === 'groomer' ? await Groomer.findOne({ email: data?.groomer_email }).exec() : await Veteran.findOne({ email: data?.veterinary_email }).exec();
 
     if (user) {
-      return res.json({ success: false, message: `${business_category} already registered.` });
+      return res.json({ success: false, message: `This ${business_category} is already registered.` });
     }
 
     let password = await generatePassword();
     const emailData = {
-      to:business_category === 'groomer' ? data.groomer_email : data.veterinary_email,
+      to: business_category === 'groomer' ? data.groomer_email : data.veterinary_email,
       subject: `Doaffair ${business_category} Password`,
       text: `Your Password for Doaffaire is ${password}.`
     }
-    
+
     await this.emailTransport.sentVerificationEmail(emailData)
     password = await authentication(password);
 
@@ -230,9 +230,9 @@ export default class Auth {
     const sessionToken = await createAuthToken({ _id: (user._id).toString() });
     let updatedUser;
     if (business_category === 'groomer') {
-      updatedUser = await Groomer.findByIdAndUpdate({ _id: user._id }, { $set: { sessionToken } },{new: true});
+      updatedUser = await Groomer.findByIdAndUpdate({ _id: user._id }, { $set: { sessionToken } }, { new: true });
     } else if (business_category === 'veteran') {
-      updatedUser = await Veteran.findByIdAndUpdate({ _id: user._id }, { $set: { sessionToken } },{new: true});
+      updatedUser = await Veteran.findByIdAndUpdate({ _id: user._id }, { $set: { sessionToken } }, { new: true });
     }
 
     return res.json({ success: true, message: 'Login Successfully', data: updatedUser });
@@ -250,11 +250,11 @@ export default class Auth {
 
     let password = await generatePassword()
     const emailData = {
-      to: data.email ,
+      to: data.email,
       subject: `Doaffair ${business_category} Password`,
       text: `Your Password for Doaffaire is ${password}.`
     }
-    
+
     await this.emailTransport.sentVerificationEmail(emailData)
     password = await authentication(password);
 

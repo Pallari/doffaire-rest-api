@@ -1,11 +1,11 @@
-import { Application, urlencoded, json } from "express";
+import { Application, urlencoded, json } from 'express';
 
-import helmet from "helmet";
-import winston from "winston";
+import helmet from 'helmet';
+import winston from 'winston';
 
-import rateLimiter from "./middlewares/rateLimit";
-import { unCoughtErrorHandler } from "./handlers/errorHandler";
-import Routes from "./routes";
+import rateLimiter from './middlewares/rateLimit';
+import { unCoughtErrorHandler } from './handlers/errorHandler';
+import Routes from './routes';
 
 // app.enable('trust proxy'); // only if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
 
@@ -24,7 +24,7 @@ export default class Server {
   }
 }
 
-process.on("beforeExit", function (err) {
+process.on('beforeExit', function (err) {
   winston.error(JSON.stringify(err));
   console.error(err);
 });

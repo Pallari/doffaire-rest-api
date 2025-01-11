@@ -1,12 +1,12 @@
 import { Router } from 'express';
-
 import VeteranCtrl from '../controllers/VeteranCtrl';
-
+import { validate } from '../middlewares/validate';
+import { updateDetail } from '../validators/veteranValidator';
 class VeteranRoutes {
 
-    router = Router();
+    public router = Router();
 
-    veteranCtrl = new VeteranCtrl();
+    private veteranCtrl = new VeteranCtrl();
 
     constructor() {
         this.intializeRoutes();
@@ -14,13 +14,13 @@ class VeteranRoutes {
 
     intializeRoutes() {
         // GET APIs
-        this.router.route("/").get(this.veteranCtrl.getVeteran);
+        this.router.route('/').get(this.veteranCtrl.getVeteran);
 
         // POST APIs
-        // this.router.route("/update").post(this.veteranCtrl.updateVeteran);
 
         // PUT APIs
-    
+        this.router.route('/update').put(validate(updateDetail), this.veteranCtrl.updateVeteran);
+
         // DELETE APIs
         this.router.route("/delete").post(this.veteranCtrl.deleteVeteranInfo);
     }

@@ -1,14 +1,14 @@
-import { Application } from "express";
-import groomerRouter from "./Groomer";
-import authRouter from "./Auth";
+import { Application } from 'express';
+import groomerRouter from './Groomer';
+import authRouter from './Auth';
 import veteranRouter from './veteran';
 export default class Routes {
   constructor(app: Application) {
     // common routes
-    app.use("/auth", authRouter);
+    app.use('/auth', authRouter);
     // Groomer routes
-    app.use("/groomer", groomerRouter);
+    app.use('/groomer', groomerRouter);
     // Veteran routes
-    app.use("/veteran", veteranRouter);
+    app.use('/veteran', veteranRouter);
   }
 }

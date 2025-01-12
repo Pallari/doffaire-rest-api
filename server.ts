@@ -5,7 +5,6 @@ import { Application } from 'express';
 import { DBConnect } from './src/db/db';
 import Server from './src/index';
 
-
 const app: Application = express();
 const server: Server = new Server(app);
 const server_url: string = process.env.SERVER_URL || 'localhost';

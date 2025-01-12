@@ -1,7 +1,5 @@
 import mongoose from 'mongoose';
-
-const dbUrl: string = process.env.DB_URL || '';
-const dbName: string = process.env.DB_NAME || '';
+import { DB_URL, DB_NAME } from '../constants/constants-info';
 export class DBConnect {
   public connectedDb;
 
@@ -10,12 +8,12 @@ export class DBConnect {
   }
 
   private setupDb(): void {
-    if (!dbUrl) {
+    if (!DB_URL) {
       process.exit(0);
     }
     mongoose
-      .connect(dbUrl, {
-        dbName: dbName
+      .connect(DB_URL, {
+        dbName: DB_NAME
       })
       .then((db) => {
         this.connectedDb = db;

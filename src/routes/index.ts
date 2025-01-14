@@ -5,6 +5,10 @@ import veteranRouter from './veteran';
 import bookingRouter from './Booking';
 export default class Routes {
   constructor(app: Application) {
+    // Default Route
+    app.get('/', function(req, res){
+      res.send('Doffair App is running');
+    });
     // common routes
     app.use('/auth', authRouter);
     // Groomer routes

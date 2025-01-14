@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const VeteranSchema = new mongoose.Schema(
+const veteranSchema = new mongoose.Schema(
   {
     clinicName: { type: String, required: true },
     email: { type: String, required: true },
@@ -78,4 +78,4 @@ const VeteranSchema = new mongoose.Schema(
   }
 );
 
-export const Veteran = mongoose.model('veteran', VeteranSchema); //Interaction with DB
+export const Veteran = mongoose.model('veteran', veteranSchema); //Interaction with DB

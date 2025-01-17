@@ -4,7 +4,7 @@
   "description": "This is a Doffaire REST API developed using node and express with typescript",
   "scripts": {
     "start": "node ./dist/server.js",
-    "build": "npm run transpile",
+    "build": "./node_modules/typescript/bin/tsc",
     "dev": "concurrently \"npm:watch\" \"npm:serve\"",
     "serve": "npm run transpile && node ./dist/server.js",
     "watch": "tsc -w",

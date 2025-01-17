@@ -1,6 +1,7 @@
 import { config } from 'dotenv';
 config();
 import express from 'express';
+import cors from 'cors';
 import { Application } from 'express';
 import { DBConnect } from './src/db/db';
 import Server from './src/index';
@@ -14,6 +15,7 @@ const database = new DBConnect();
 app.disable('x-powered-by'); //Reduce fingerprinting
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cors());
 
 app.listen(port, () => {
   console.info(`Server running on : ${server_url}:${port}`);

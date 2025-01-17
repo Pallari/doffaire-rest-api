@@ -15,7 +15,7 @@ app.disable('x-powered-by'); //Reduce fingerprinting
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.listen(port, server_url, () => {
+app.listen(port, () => {
   console.info(`Server running on : ${server_url}:${port}`);
 }).on('error', (err: any) => {
   if (err.code === 'EADDRINUSE') {

@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "b256605e-508d-426f-be05-8a1780b22570",
+		"_postman_id": "1e5d470e-a503-41c4-9c29-c6c9a1715e84",
 		"name": "Doffaire",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-		"_exporter_id": "2998569"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41189631"
 	},
 	"item": [
 		{
@@ -17,7 +17,23 @@
 						},
 						"method": "GET",
 						"header": [],
-						"url": "https://2factor.in/API/V1/44d09d5a-660e-11ef-8b60-0200cd936042/SMS/VERIFY3/9033768317/2243"
+						"url": {
+							"raw": "https://2factor.in/API/V1/44d09d5a-660e-11ef-8b60-0200cd936042/SMS/VERIFY3/9033768317/2243",
+							"protocol": "https",
+							"host": [
+								"2factor",
+								"in"
+							],
+							"path": [
+								"API",
+								"V1",
+								"44d09d5a-660e-11ef-8b60-0200cd936042",
+								"SMS",
+								"VERIFY3",
+								"9033768317",
+								"2243"
+							]
+						}
 					},
 					"response": []
 				},
@@ -29,7 +45,22 @@
 						},
 						"method": "GET",
 						"header": [],
-						"url": "https://2factor.in/API/V1/44d09d5a-660e-11ef-8b60-0200cd936042/SMS/9033768317/2243"
+						"url": {
+							"raw": "https://2factor.in/API/V1/44d09d5a-660e-11ef-8b60-0200cd936042/SMS/9033768317/2243",
+							"protocol": "https",
+							"host": [
+								"2factor",
+								"in"
+							],
+							"path": [
+								"API",
+								"V1",
+								"44d09d5a-660e-11ef-8b60-0200cd936042",
+								"SMS",
+								"9033768317",
+								"2243"
+							]
+						}
 					},
 					"response": []
 				}
@@ -49,7 +80,16 @@
 						}
 					}
 				},
-				"url": "http://localhost:3000/auth/registration"
+				"url": {
+					"raw": "{{host_url}}/auth/registration",
+					"host": [
+						"{{host_url}}"
+					],
+					"path": [
+						"auth",
+						"registration"
+					]
+				}
 			},
 			"response": []
 		},
@@ -67,7 +107,16 @@
 						}
 					}
 				},
-				"url": "http://localhost:3000/auth/registration"
+				"url": {
+					"raw": "{{host_url}}/auth/registration",
+					"host": [
+						"{{host_url}}"
+					],
+					"path": [
+						"auth",
+						"registration"
+					]
+				}
 			},
 			"response": []
 		},
@@ -85,7 +134,16 @@
 						}
 					}
 				},
-				"url": "http://localhost:3000/auth/verification"
+				"url": {
+					"raw": "{{host_url}}/auth/verification",
+					"host": [
+						"{{host_url}}"
+					],
+					"path": [
+						"auth",
+						"verification"
+					]
+				}
 			},
 			"response": []
 		},
@@ -103,7 +161,18 @@
 						}
 					}
 				},
-				"url": "http://localhost:3000/auth/login"
+				"url": {
+					"raw": "http://localhost:3000/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
 			},
 			"response": []
 		},
@@ -124,7 +193,16 @@
 						}
 					}
 				},
-				"url": "http://localhost:3000/groomer/updateGroomer"
+				"url": {
+					"raw": "{{host_url}}/groomer/updateGroomer",
+					"host": [
+						"{{host_url}}"
+					],
+					"path": [
+						"groomer",
+						"updateGroomer"
+					]
+				}
 			},
 			"response": []
 		},
@@ -145,7 +223,16 @@
 						}
 					}
 				},
-				"url": "http://localhost:3000/veteran/update"
+				"url": {
+					"raw": "{{host_url}}/veteran/update",
+					"host": [
+						"{{host_url}}"
+					],
+					"path": [
+						"veteran",
+						"update"
+					]
+				}
 			},
 			"response": []
 		},
@@ -172,7 +259,16 @@
 						}
 					}
 				},
-				"url": "http://localhost:3000/auth/logout"
+				"url": {
+					"raw": "{{host_url}}/auth/logout",
+					"host": [
+						"{{host_url}}"
+					],
+					"path": [
+						"auth",
+						"logout"
+					]
+				}
 			},
 			"response": []
 		},
@@ -193,7 +289,16 @@
 						}
 					}
 				},
-				"url": "http://localhost:3000/auth/forgotPassword"
+				"url": {
+					"raw": "{{host_url}}/auth/forgotPassword",
+					"host": [
+						"{{host_url}}"
+					],
+					"path": [
+						"auth",
+						"forgotPassword"
+					]
+				}
 			},
 			"response": []
 		}

@@ -4,12 +4,13 @@ import { apiErrorHandler } from '../handlers/errorHandler';
 import { Groomer } from '../models/Groomers';
 import { Veteran } from '../models/Veteran';
 import { authentication, comparePassword, createAuthToken, generatePassword } from '../utils/authentication';
-import { PY_SMS_VALIDATE, PY_GENERATE_OTP, TWO_FACTOR_SMS_API, SMS_API_KEY } from '../constants/constants-info';
+import { TWO_FACTOR_SMS_API, SMS_API_KEY } from '../constants/constants-info';
 import EmailTransport from '../utils/email-transport';
 
 export default class Auth {
 
-  emailTransport = new EmailTransport();
+  private emailTransport = new EmailTransport();
+
   constructor() {
     this.registration = this.registration.bind(this);
     this.verification = this.verification.bind(this);

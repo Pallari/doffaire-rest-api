@@ -8,7 +8,7 @@ import Server from './src/index';
 const app: Application = express();
 const server: Server = new Server(app);
 const server_url: string = process.env.SERVER_URL || 'localhost';
-const port: number = process.env.PORT ? parseInt(process.env.PORT, 10) : 8181;
+const port: number = process.env.PORT ? parseInt(process.env.PORT, 10) : 8080;
 const database = new DBConnect();
 
 app.disable('x-powered-by'); //Reduce fingerprinting

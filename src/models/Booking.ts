@@ -13,8 +13,8 @@ const bookingSchema = new mongoose.Schema({
     endTime: {type:Date},
     instructions: {type:String},
     petId: {type: mongoose.Schema.Types.ObjectId, ref: 'pet'},
-    serviceProviderId: {type:String}, // Todo: Add Reference
     serviceProviderType: {type:String, enum: ['vet','groomer']},
+    serviceProviderId: {type: mongoose.Schema.Types.ObjectId, ref: 'groomer'}, // ToDo
     serviceType: {type:String},
     services: {type:Array},
     status: {type:String, enum: ['cancelled','confirmed','completed']},

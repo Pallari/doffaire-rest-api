@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import BookingCtrl from '../controllers/BookingCtrl';
+import { listing } from '../validators/bookingValidator';
+import { validate } from '../middlewares/validate';
 
 
 class BookingRoutes {
@@ -12,7 +14,7 @@ class BookingRoutes {
 
   intializeRoutes() {
 
-    this.router.route('/').post(this.bookingCtrl.bookingListing);
+    this.router.route('/').post(validate(listing), this.bookingCtrl.bookingListing);
 
   }
 }

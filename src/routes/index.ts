@@ -15,7 +15,7 @@ export default class Routes {
     app.use('/groomer', groomerRouter);
     // Veteran routes
     app.use('/veteran', veteranRouter);
-    // Booknig routes
+    // Booking routes
     app.use('/booking', bookingRouter);
   }
 }

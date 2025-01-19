@@ -21,7 +21,7 @@ const bookingSchema = new mongoose.Schema({
   serviceProviderId: { type: mongoose.Schema.Types.ObjectId, ref: 'groomer' }, // ToDo
   serviceType: { type: String },
   services: { type: Array },
-  status: { type: String, enum: ['cancelled', 'confirmed', 'completed'] },
+  status: { type: String, enum: ['cancelled', 'confirmed', 'completed', 'rescheduleRequest', 'rescheduled'] },
   title: { type: String },
   updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
   userAddressId: { type: mongoose.Schema.Types.ObjectId, ref: 'userAddress' },

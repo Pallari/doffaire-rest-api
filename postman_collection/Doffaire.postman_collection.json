@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "1e5d470e-a503-41c4-9c29-c6c9a1715e84",
+		"_postman_id": "774ec296-83bc-40e2-a0e1-299fbb04bfb9",
 		"name": "Doffaire",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "41189631"
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "2998569"
 	},
 	"item": [
 		{
@@ -17,23 +17,7 @@
 						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "https://2factor.in/API/V1/44d09d5a-660e-11ef-8b60-0200cd936042/SMS/VERIFY3/9033768317/2243",
-							"protocol": "https",
-							"host": [
-								"2factor",
-								"in"
-							],
-							"path": [
-								"API",
-								"V1",
-								"44d09d5a-660e-11ef-8b60-0200cd936042",
-								"SMS",
-								"VERIFY3",
-								"9033768317",
-								"2243"
-							]
-						}
+						"url": "https://2factor.in/API/V1/44d09d5a-660e-11ef-8b60-0200cd936042/SMS/VERIFY3/9033768317/2243"
 					},
 					"response": []
 				},
@@ -45,22 +29,7 @@
 						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "https://2factor.in/API/V1/44d09d5a-660e-11ef-8b60-0200cd936042/SMS/9033768317/2243",
-							"protocol": "https",
-							"host": [
-								"2factor",
-								"in"
-							],
-							"path": [
-								"API",
-								"V1",
-								"44d09d5a-660e-11ef-8b60-0200cd936042",
-								"SMS",
-								"9033768317",
-								"2243"
-							]
-						}
+						"url": "https://2factor.in/API/V1/44d09d5a-660e-11ef-8b60-0200cd936042/SMS/9033768317/2243"
 					},
 					"response": []
 				}
@@ -80,16 +49,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "{{host_url}}/auth/registration",
-					"host": [
-						"{{host_url}}"
-					],
-					"path": [
-						"auth",
-						"registration"
-					]
-				}
+				"url": "{{host_url}}/auth/registration"
 			},
 			"response": []
 		},
@@ -107,16 +67,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "{{host_url}}/auth/registration",
-					"host": [
-						"{{host_url}}"
-					],
-					"path": [
-						"auth",
-						"registration"
-					]
-				}
+				"url": "{{host_url}}/auth/registration"
 			},
 			"response": []
 		},
@@ -134,16 +85,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "{{host_url}}/auth/verification",
-					"host": [
-						"{{host_url}}"
-					],
-					"path": [
-						"auth",
-						"verification"
-					]
-				}
+				"url": "{{host_url}}/auth/verification"
 			},
 			"response": []
 		},
@@ -161,16 +103,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "{{host_url}}/auth/login",
-					"host": [
-						"{{host_url}}"
-					],
-					"path": [
-						"auth",
-						"login"
-					]
-				}
+				"url": "{{host_url}}/auth/login"
 			},
 			"response": []
 		},
@@ -191,16 +124,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "{{host_url}}/groomer/updateGroomer",
-					"host": [
-						"{{host_url}}"
-					],
-					"path": [
-						"groomer",
-						"updateGroomer"
-					]
-				}
+				"url": "{{host_url}}/groomer/updateGroomer"
 			},
 			"response": []
 		},
@@ -221,16 +145,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "{{host_url}}/veteran/update",
-					"host": [
-						"{{host_url}}"
-					],
-					"path": [
-						"veteran",
-						"update"
-					]
-				}
+				"url": "{{host_url}}/veteran/update"
 			},
 			"response": []
 		},
@@ -257,16 +172,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "{{host_url}}/auth/logout",
-					"host": [
-						"{{host_url}}"
-					],
-					"path": [
-						"auth",
-						"logout"
-					]
-				}
+				"url": "{{host_url}}/auth/logout"
 			},
 			"response": []
 		},
@@ -287,16 +193,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "{{host_url}}/auth/forgotPassword",
-					"host": [
-						"{{host_url}}"
-					],
-					"path": [
-						"auth",
-						"forgotPassword"
-					]
-				}
+				"url": "{{host_url}}/auth/forgotPassword"
 			},
 			"response": []
 		},
@@ -323,17 +220,61 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "{{host_url}}/auth//refreshToken",
-					"host": [
-						"{{host_url}}"
-					],
-					"path": [
-						"auth",
-						"",
-						"refreshToken"
-					]
-				}
+				"url": "{{host_url}}/auth/refreshToken"
+			},
+			"response": []
+		},
+		{
+			"name": "Booking Listing",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhhMmYwYmY4NWY2MmIyMTY4MGM0NTMiLCJpYXQiOjE3MzcyODg5NTUsImV4cCI6MTczNzI4OTg1NX0.rr8ECTkGhqjL_KeAVOtDZBOZpRdhc3N4xyBIkUSoLKc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"business_category\":\"groomer\",\n    \"page\":1,\n    \"pageSize\":5,\n    \"pageName\": \"past\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{host_url}}/booking/listing"
+			},
+			"response": []
+		},
+		{
+			"name": "Reschedule Booking",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhhMmYwYmY4NWY2MmIyMTY4MGM0NTMiLCJpYXQiOjE3MzcyODU3MjIsImV4cCI6MTczNzI4NjYyMn0.sANt7mrtEVWR06SXv4NYr1T77ldtCAvF8Yh0LAxSiYg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"bookingId\": \"677d20459e13b5bdb63c829b\",\n    \"startTime\": \"2025-01-10T11:30:00.000Z\",\n    \"endTime\": \"2025-01-10T12:00:00.000Z\",\n    \"updatedDate\": \"2025-01-09T12:38:29.518Z\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{host_url}}/booking/rescheduleBooking"
 			},
 			"response": []
 		}

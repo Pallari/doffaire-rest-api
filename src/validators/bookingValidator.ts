@@ -10,3 +10,29 @@ export const listing  = {
     sortBy: Joi.string()
   })
 };
+
+export const rescheduleBooking = {
+  body: Joi.object().keys({
+    bookingId: Joi.string().required(),
+    startTime: Joi.date().required(),
+    endTime: Joi.date().required(),
+    updatedDate: Joi.date().required()
+  })
+}
+
+export const rescheduleListing  = {
+  body: Joi.object().keys({
+    business_category: Joi.string().required().valid('groomer', 'veteran'),
+    page: Joi.number().required(),
+    pageSize: Joi.number().required(),
+    searchString: Joi.string(),
+    sortBy: Joi.string()
+  })
+};
+
+export const sendVerificationCode = {
+  body: Joi.object().keys({
+    bookingId: Joi.string().required(),
+    status:  Joi.string().required().valid('start', 'complete'),
+  })
+}

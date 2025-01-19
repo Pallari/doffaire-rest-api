@@ -282,7 +282,6 @@ export default class Auth {
     }
 
     let password = await generatePassword();
-
     const emailData = {
       to: data.email,
       subject: `Doaffair ${business_category} Password`,

@@ -216,10 +216,10 @@ export default class Auth {
     const data = req.body;
     const business_category = data.business_category;
 
-    const user = business_category === 'groomer' ? await Groomer.findOne({ email: data?.groomer_email }).exec() : await Veteran.findOne({ email: data?.veterinary_email }).exec();
+    const user = business_category === 'groomer' ? await Groomer.findOne({ email: data?.email }).exec() : await Veteran.findOne({ email: data?.email }).exec();
 
     if (!user) {
-      return res.json({ success: false, message: `${business_category} not found.` });
+      return res.json({ success: false, message: `${data?.email} for ${business_category} not found.` });
     }
 
     const isPasswordMatch = await comparePassword(data.password, user.password);

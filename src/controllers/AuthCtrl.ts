@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { apiErrorHandler } from '../handlers/errorHandler';
-import { Groomer } from '../models/Groomers';
+import { Groomer } from '../models/Groomer';
 import { Veteran } from '../models/Veteran';
 import { authentication, comparePassword, createAuthToken, generatePassword } from '../utils/authentication';
 import { TWO_FACTOR_SMS_API, SMS_API_KEY } from '../constants/constants-info';

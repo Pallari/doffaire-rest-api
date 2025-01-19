@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { apiErrorHandler } from '../handlers/errorHandler';
-import { Groomer } from '../models/Groomers';
+import { Groomer } from '../models/Groomer';
 
 export default class GroomerCtrl {
   constructor() { }

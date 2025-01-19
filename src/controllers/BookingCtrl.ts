@@ -35,7 +35,7 @@ export default class BookingCtrl {
             } 
              
             // Todo: pending Populate 
-            const bookingData = await Booking.find(searchQuery).sort(sort).skip((+data.page - 1) * +data.pageSize).limit(+data.pageSize).lean().exec()
+            const bookingData = await Booking.find(searchQuery).sort(sort).skip((+data.page - 1) * +data.pageSize).limit(+data.pageSize).populate('userId').lean().exec();
             
             // const bookingData = await Booking.find({serviceProviderType: "groomer"}).populate('createdBy')
            

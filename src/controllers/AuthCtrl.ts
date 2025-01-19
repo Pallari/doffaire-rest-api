@@ -86,6 +86,32 @@ export default class Auth {
     }
   }
 
+  async refreshToken(req, res) {
+    try {
+      let userId = req.user._id;
+      const business_category = req.body.business_category;
+
+      const user = business_category === 'groomer' ? await Groomer.findById({ _id: userId }).exec() : await Veteran.findById({ _id: userId }).exec();
+
+      if (!user) {
+        return res.json({ success: false, message: `${business_category} user not found.` });
+      }
+
+      const sessionToken = await createAuthToken({ _id: (user._id).toString() });
+
+      let userData: any;
+
+      if (business_category === 'groomer') {
+        userData = await Groomer.findByIdAndUpdate({ _id: userId }, { $set: { sessionToken } });
+      } else if (business_category === 'veteran') {
+        userData = await Veteran.findByIdAndUpdate({ _id: userId }, { $set: { sessionToken } });
+      }
+      return res.json({ success: true, message: 'Token refreshed Successfully', sessionToken: userData.sessionToken });
+    } catch (error) {
+      apiErrorHandler(error, req, res, 'Token refreshing failed.');
+    }
+  }
+
   // Pending
   async logout(req, res) {
     try {

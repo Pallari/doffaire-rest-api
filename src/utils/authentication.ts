@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import { RANDOM_STRING } from '../constants/constants-info';
 
 const tokenPrivateKey = 'DoFfAIrE';
-const tokenExpiry = '10h';
+const tokenExpiry = '15m';
 
 //creates an HMAC (Hash-based Message Authentication Code) object using the SHA-256
 export const authentication = async (password) => {

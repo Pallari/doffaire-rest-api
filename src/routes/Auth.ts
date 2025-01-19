@@ -22,6 +22,8 @@ class AuthRoutes {
 
     this.router.route('/forgotPassword').post(validate(forgotPassword), this.authCtrl.forgotPassword);
 
+    this.router.route('/refreshToken').post(verifyAuthToken, this.authCtrl.refreshToken);
+
     this.router.route('/logout').post(verifyAuthToken, this.authCtrl.logout);
   }
 }

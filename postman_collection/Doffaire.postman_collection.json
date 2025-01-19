@@ -162,12 +162,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/auth/login",
-					"protocol": "http",
+					"raw": "{{host_url}}/auth/login",
 					"host": [
-						"localhost"
+						"{{host_url}}"
 					],
-					"port": "3000",
 					"path": [
 						"auth",
 						"login"
@@ -297,6 +295,43 @@
 					"path": [
 						"auth",
 						"forgotPassword"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Refresh Token",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhjNzk3MDA0Y2ZhMTdlNGNkYWNhZDYiLCJpYXQiOjE3MzcyNjA3NjYsImV4cCI6MTczNzI5Njc2Nn0.I1hvqCtY8BqETyvLlzOyokmFb7Dnkc6WDEDgLZH5vlo",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"business_category\": \"groomer\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host_url}}/auth//refreshToken",
+					"host": [
+						"{{host_url}}"
+					],
+					"path": [
+						"auth",
+						"",
+						"refreshToken"
 					]
 				}
 			},

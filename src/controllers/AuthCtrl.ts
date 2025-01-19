@@ -106,7 +106,7 @@ export default class Auth {
       } else if (business_category === 'veteran') {
         userData = await Veteran.findByIdAndUpdate({ _id: userId }, { $set: { sessionToken } });
       }
-      return res.json({ success: true, message: 'Token refreshed Successfully', sessionToken: userData.sessionToken });
+      return res.json({ success: true, message: 'Token refreshed Successfully', sessionToken: sessionToken });
     } catch (error) {
       apiErrorHandler(error, req, res, 'Token refreshing failed.');
     }
@@ -116,6 +116,7 @@ export default class Auth {
   async logout(req, res) {
     try {
       let userId = req.user._id;
+
       const business_category = req.body.business_category;
 
       const user = business_category === 'groomer' ? await Groomer.findById(userId).exec() : await Veteran.findById(userId).exec();
@@ -129,11 +130,9 @@ export default class Auth {
       } else if (business_category === 'veteran') {
         await Veteran.findByIdAndUpdate({ _id: userId }, { $set: { sessionToken: '' } });
       }
-
       return res.json({ success: true, message: 'Logout Successfully' });
     } catch (error) {
       apiErrorHandler(error, req, res, 'Logout failed.');
-
     }
   }
 
@@ -148,19 +147,23 @@ export default class Auth {
     }
 
     let password = await generatePassword();
+
     const emailData = {
       to: business_category === 'groomer' ? data.groomer_email : data.veterinary_email,
       subject: `Doaffair ${business_category} Password`,
-      text: `Your Password for Doaffaire is ${password}.`
-    }
+      text: `Your Password for Doaffaire is ${password}`
+    };
 
-    await this.emailTransport.sentVerificationEmail(emailData)
+    this.emailTransport.sentVerificationEmail(emailData);
+
     password = await authentication(password);
 
     const phoneNumber = business_category === 'groomer' ? data.groomer_phone : data.veterinary_phone;
-    const otp = Math.floor(Math.random() * ((9999 - 1000 + 1)) + 1000)
+
+    const otp = Math.floor(Math.random() * ((9999 - 1000 + 1)) + 1000);
+    
     await axios.get(`${TWO_FACTOR_SMS_API}/${SMS_API_KEY}/SMS/${phoneNumber}/${otp}`)
-      .then(async (response) => {
+      .then(async () => {
         data.otp = otp;
         data.password = password;
         const userData = await this.saveUserData(data);
@@ -174,7 +177,6 @@ export default class Auth {
       .catch((error) => {
         apiErrorHandler(error, req, res, 'Sending Sms failed.');
       });
-
   }
 
   async saveUserData(data) {
@@ -213,6 +215,7 @@ export default class Auth {
 
   async doVerification(req, res) {
     const data = req.body;
+
     const business_category = data.business_category;
 
     const user = business_category === 'groomer' ? await Groomer.findOne({ phone: data?.phone }).exec() : await Veteran.findOne({ phone: data?.phone }).exec();
@@ -233,13 +236,14 @@ export default class Auth {
         }
         return res.json({ success: false, message: 'Verification Failed' });
       })
-      .catch((error) => {
+      .catch(() => {
         return res.json({ success: false, message: 'Verification Failed' });
       });
   }
 
   async doLogin(req, res) {
     const data = req.body;
+
     const business_category = data.business_category;
 
     const user = business_category === 'groomer' ? await Groomer.findOne({ email: data?.email }).exec() : await Veteran.findOne({ email: data?.email }).exec();
@@ -255,7 +259,9 @@ export default class Auth {
     }
 
     const sessionToken = await createAuthToken({ _id: (user._id).toString() });
-    let updatedUser;
+
+    let updatedUser: any;
+    
     if (business_category === 'groomer') {
       updatedUser = await Groomer.findByIdAndUpdate({ _id: user._id }, { $set: { sessionToken } }, { new: true });
     } else if (business_category === 'veteran') {
@@ -275,14 +281,16 @@ export default class Auth {
       return res.json({ success: false, message: `${business_category} not found.` });
     }
 
-    let password = await generatePassword()
+    let password = await generatePassword();
+
     const emailData = {
       to: data.email,
       subject: `Doaffair ${business_category} Password`,
       text: `Your Password for Doaffaire is ${password}.`
-    }
+    };
 
     await this.emailTransport.sentVerificationEmail(emailData)
+    
     password = await authentication(password);
 
     if (business_category === 'groomer') {
@@ -291,7 +299,7 @@ export default class Auth {
       await Veteran.findByIdAndUpdate({ _id: user._id }, { $set: { password } });
     }
 
-    return res.json({ success: true, message: 'Password Update Successfully' });
+    return res.json({ success: true, message: 'Updated password sent to your email successfully.' });
   }
 
 }

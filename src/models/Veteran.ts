@@ -38,7 +38,7 @@ const veteranSchema = new mongoose.Schema(
       veterinary_latitude: { type: String },
       veterinary_landmark: { type: String },
     },
-    veterinary_add_doctor: {
+    veterinary_add_doctor: [{
       add_doctor_clinic_name: { type: String },
       add_doctor_email: { type: String },
       add_doctor_phone_number: { type: String },
@@ -48,7 +48,7 @@ const veteranSchema = new mongoose.Schema(
       add_doctor_doctor_about: { type: String },
       add_doctor_send_image: { type: String },
       doctor_id: { type: String },
-    },
+    }],
     veterinary_upload_documents: [
       {
         veterinary_document_file_name: { type: String },

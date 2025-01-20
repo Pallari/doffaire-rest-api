@@ -358,6 +358,48 @@
 				"url": "{{host_url}}/booking/sendVerificationCode"
 			},
 			"response": []
+		},
+		{
+			"name": "Delete Doctor/Staff",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{host_url}}/veteran/deleteDoctor/678c5831b8e9c66de2663ff5/678dd97e5ef7897aaf9530de"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Doctor/Staff",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"add_doctor_clinic_name\": \"Test\",\n    \"add_doctor_email\": \"test@gmail.com\",\n    \"add_doctor_phone_number\": \"7574029451\",\n    \"add_doctor_alternate_phone_number\": \"7574029451\",\n    \"add_doctor_doctor_experienc_in\": \"7574029451\",\n    \"add_doctor_doctor_experienc\": \"1\",\n    \"add_doctor_consultancy_fees\": \"7574029451\",\n    \"add_doctor_doctor_about\": \"1234567789\",\n    \"add_doctor_send_image\": \"7c7bb8ea00c3434babcf73adf8bba869/groomer/8f6cd856-1c43-45b1-a975-75132b6d0955-dummy-profile-pic-male1.jpg\",\n    \"doctor_id\": \"2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{host_url}}/veteran/updateDoctor/678c5831b8e9c66de2663ff5"
+			},
+			"response": []
 		}
 	]
 }

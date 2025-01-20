@@ -13,16 +13,10 @@ class VeteranRoutes {
     }
 
     intializeRoutes() {
-        // GET APIs
         this.router.route('/').get(this.veteranCtrl.getVeteran);
-
-        // POST APIs
-
-        // PUT APIs
         this.router.route('/update').put(validate(updateDetail), this.veteranCtrl.updateVeteran);
-
-        // DELETE APIs
-        this.router.route("/delete").post(this.veteranCtrl.deleteVeteranInfo);
+        this.router.route("/updateDoctor/:id").put(this.veteranCtrl.updateDoctor);
+        this.router.route("/deleteDoctor/:id/:doctorId").delete(this.veteranCtrl.deleteDoctor);
     }
 }
 

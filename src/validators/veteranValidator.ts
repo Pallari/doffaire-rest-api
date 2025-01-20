@@ -46,3 +46,32 @@ export const updateDetail = {
         })
     })
 };
+
+
+
+const updateDoctor = {
+    params: Joi.object().keys({
+      id: Joi.string().required()
+    }),
+    body: Joi.object()
+      .keys({
+        add_doctor_clinic_name: Joi.string(),
+        add_doctor_email: Joi.string(),
+        add_doctor_phone_number: Joi.string(),
+        add_doctor_alternate_phone_number: Joi.string(),
+        add_doctor_doctor_experienc_in: Joi.string(),
+        add_doctor_doctor_experienc: Joi.string(),
+        add_doctor_doctor_about: Joi.string(),
+        add_doctor_send_image: Joi.string(),
+        doctor_id: Joi.string(),
+        _id: Joi.string()
+      })
+      .min(1),
+  };
+  
+  export const deleteDoctor  = {
+    params: Joi.object().keys({
+      id: Joi.string().required(),
+      doctorId: Joi.string().required(),
+    }),
+  };

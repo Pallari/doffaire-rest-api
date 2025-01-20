@@ -29,9 +29,30 @@ export default class VeteranCtrl {
     }
   }
 
-  async deleteVeteranInfo(req: Request, res: Response, next: NextFunction) {
+
+  async updateDoctor(req,res) {
     try {
-      res.json({ success: true, data: 'success' });
+      const data = req.body;
+      const {id} = req.params
+    
+     const updatedUser = await Veteran.findByIdAndUpdate({ _id: id }, { $set: {veterinary_add_doctor: data} }, { new: true, upsert:true });
+      if(!updatedUser) return res.json({success:false, message: "Doctor not updated"})
+
+      return res.json({success:true, data: updatedUser})
+
+    } catch (error) {
+      apiErrorHandler(error, req, res, 'Update Doctor Failed.');
+    }
+  }
+
+  async deleteDoctor(req, res) {
+    try {
+      const {id, doctorId} = req.params
+    
+     const updatedUser = await Veteran.findByIdAndUpdate({ _id: id }, { $pull: {'veterinary_add_doctor': {'_id': doctorId}} });
+      if(updatedUser)  return res.json({success:true, data: 'Doctor Deleted Successfully'})
+      return res.json({success:false, message: "Doctor not deleted"})
+
     } catch (error) {
       apiErrorHandler(error, req, res, 'Fetch All groomer failed.');
     }

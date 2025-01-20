@@ -32,7 +32,14 @@ export const rescheduleListing  = {
 
 export const sendVerificationCode = {
   body: Joi.object().keys({
+    bookingId: Joi.string().required()
+  })
+}
+
+export const serviceVerification = {
+  body: Joi.object().keys({
     bookingId: Joi.string().required(),
-    status:  Joi.string().required().valid('start', 'complete'),
+    otp: Joi.number().required(),
+    status:  Joi.string().required().valid('start', 'completed'),
   })
 }

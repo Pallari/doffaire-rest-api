@@ -172,7 +172,7 @@ export default class BookingCtrl {
         await axios.get(`${TWO_FACTOR_SMS_API}/${SMS_API_KEY}/SMS/${userData.phoneNumber}/${otp}`)
         .then(async (response) => {
   
-          if (response) return res.json({ success: true, message: 'Otp Sent Successfully' });
+          if (response.statusText === 'OK') return res.json({ success: true, message: 'Otp Sent Successfully' });
   
           return res.json({ success: false, message: `Error while saving Data` });
         })

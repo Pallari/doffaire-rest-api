@@ -49,7 +49,7 @@ export const updateDetail = {
 
 
 
-const updateDoctor = {
+export const updateDoctor = {
     params: Joi.object().keys({
       id: Joi.string().required()
     }),

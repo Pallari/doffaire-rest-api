@@ -400,6 +400,27 @@
 				"url": "{{host_url}}/veteran/updateDoctor/678c5831b8e9c66de2663ff5"
 			},
 			"response": []
+		},
+		{
+			"name": "Dashboard Today's Appoinment",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"business_category\":\"groomer\",\n    \"page\":1,\n    \"pageSize\":5\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{host_url}}/dashboard/todaysBooking"
+			},
+			"response": []
 		}
 	]
 }

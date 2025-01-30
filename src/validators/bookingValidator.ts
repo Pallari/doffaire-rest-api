@@ -40,6 +40,14 @@ export const serviceVerification = {
   body: Joi.object().keys({
     bookingId: Joi.string().required(),
     otp: Joi.number().required(),
-    status:  Joi.string().required().valid('start', 'completed'),
+    status:  Joi.string().required().valid('ongoing', 'completed'),
+  })
+}
+
+export const updateBookingStatus = {
+  body: Joi.object().keys({
+    bookingId: Joi.string().required(),
+    status: Joi.string().required().valid('pendingForProviderConfirmation', 'confirmed','ongoing', 'completed','rejectByProvider',
+    'rescheduleByProvider', 'rescheduleByUser', 'cancelByUser', 'cancelByProvider', 'pendingForUserApproval')
   })
 }

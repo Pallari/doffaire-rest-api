@@ -408,10 +408,16 @@
 					"type": "noauth"
 				},
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhhMmYwYmY4NWY2MmIyMTY4MGM0NTMiLCJpYXQiOjE3MzgwNTQ5MjQsImV4cCI6MTczODA1NTgyNH0.3FxJvslgUBeOZluUEZMHdFO7ptvGPswP1g9NflSlyQM",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"business_category\":\"groomer\",\n    \"page\":1,\n    \"pageSize\":5\n}",
+					"raw": "{\n    \"business_category\":\"groomer\",\n    \"page\":1,\n    \"pageSize\":5,\n    \"searchString\": \"cen\",\n    \"sortBy\": \"bookingType\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -419,6 +425,24 @@
 					}
 				},
 				"url": "{{host_url}}/dashboard/todaysBooking"
+			},
+			"response": []
+		},
+		{
+			"name": "Dashboard Analytic Data",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhhMmYwYmY4NWY2MmIyMTY4MGM0NTMiLCJpYXQiOjE3MzgyMzU5MTgsImV4cCI6MTczODIzNjgxOH0.JAb_tml_vTCPrP-wdxzT5l2NMOEhMpDrm6iwQ30EFGY",
+						"type": "text"
+					}
+				],
+				"url": "{{host_url}}/dashboard/analyticData"
 			},
 			"response": []
 		}

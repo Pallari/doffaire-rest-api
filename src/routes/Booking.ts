@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import BookingCtrl from '../controllers/BookingCtrl';
-import { listing, rescheduleBooking, rescheduleListing, sendVerificationCode, serviceVerification } from '../validators/bookingValidator';
+import { listing, rescheduleBooking, rescheduleListing, sendVerificationCode, serviceVerification, updateBookingStatus } from '../validators/bookingValidator';
 import { validate } from '../middlewares/validate';
 import { verifyAuthToken } from '../utils/authentication';
 
@@ -20,7 +20,7 @@ class BookingRoutes {
     this.router.route('/rescheduleListing').post(verifyAuthToken, validate(rescheduleListing), this.bookingCtrl.rescheduleListing);
     this.router.route('/sendVerificationCode').post(verifyAuthToken, validate(sendVerificationCode), this.bookingCtrl.sendVerificationCode);
     this.router.route('/serviceVerification').post(verifyAuthToken, validate(serviceVerification), this.bookingCtrl.serviceVerification);
-
+    this.router.route('/updateStatus').put(verifyAuthToken, validate(updateBookingStatus),this.bookingCtrl.updateBookingStatus)
   }
 }
 export default new BookingRoutes().router;

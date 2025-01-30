@@ -211,4 +211,27 @@ export default class BookingCtrl {
       apiErrorHandler(error, req, res, 'Service Verification failed.');  
     }
   }
+
+  async updateBookingStatus(req,res){
+    try {
+        const {bookingId, status} = req.body
+        const bookingData = await Booking.updateOne(
+            { _id: bookingId },
+            { $set: {status: status} }
+          );
+    
+          if (bookingData)
+            return res.json({
+              success: true,
+              message: 'Booking Status updated Successfully',
+            });
+    
+          return res.json({
+            success: false,
+            message: 'Updating Booking Status failed',
+          });
+    } catch (error) {
+      apiErrorHandler(error, req, res, 'Update Booking failed.');  
+    }
+  }
 }

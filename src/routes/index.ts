@@ -10,7 +10,6 @@ export default class Routes {
     app.get('/', function(req, res){
       res.send('Doffair App is running');
     });
-    app.use('/dashboard', dashboardRouter);
 
     // common routes
     app.use('/auth', authRouter);
@@ -21,6 +20,7 @@ export default class Routes {
     // Booking routes
     app.use('/booking', bookingRouter);
     // Dashboard routes
+    app.use('/dashboard', dashboardRouter);
 
   }
 }

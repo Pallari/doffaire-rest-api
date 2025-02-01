@@ -72,6 +72,7 @@ const veteranSchema = new mongoose.Schema(
       veterinary_account_holder_phone: { type: String },
     },
     veterinary_is_want_sync: { type: String },
+    isDeleted: {type:Boolean, default:false},
   },
   {
     timestamps: true,

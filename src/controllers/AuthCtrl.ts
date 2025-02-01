@@ -112,7 +112,6 @@ export default class Auth {
     }
   }
 
-  // Pending
   async logout(req, res) {
     try {
       let userId = req.user._id;
@@ -133,6 +132,28 @@ export default class Auth {
       return res.json({ success: true, message: 'Logout Successfully' });
     } catch (error) {
       apiErrorHandler(error, req, res, 'Logout failed.');
+    }
+  }
+
+  async deleteUser(req,res){
+    try {
+      let userId = req.user._id;
+
+      const business_category = req.params.businessCategory;
+
+      const user = business_category === 'groomer' ? await Groomer.findById(userId).exec() : await Veteran.findById(userId).exec();
+
+      if (!user) return res.json({ success: false, message: `${business_category} not found.` });
+      
+      if (business_category === 'groomer') {
+        await Groomer.findByIdAndUpdate({ _id: userId }, { $set: { sessionToken: '', isDeleted:true } });
+      } else if (business_category === 'veteran') {
+        await Veteran.findByIdAndUpdate({ _id: userId }, { $set: { sessionToken: '', isDeleted:true } });
+      }
+      return res.json({ success: true, message: 'Account deleted Successfully' });
+      
+    } catch (error) {
+      apiErrorHandler(error, req, res, 'Delete User failed.');
     }
   }
 

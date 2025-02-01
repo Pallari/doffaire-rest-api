@@ -25,6 +25,9 @@ class AuthRoutes {
     this.router.route('/refreshToken').post(verifyAuthToken, this.authCtrl.refreshToken);
 
     this.router.route('/logout').post(verifyAuthToken, this.authCtrl.logout);
+
+    this.router.route('/deleteAccount/:businessCategory').delete(verifyAuthToken, this.authCtrl.deleteUser);
+
   }
 }
 export default new AuthRoutes().router;

@@ -65,7 +65,8 @@ const groomerSchema = new mongoose.Schema(
     groomer_bank_ifsc_code: {type:String},
     groomer_account_holder_phone: {type:String},
   },
-  groomer_is_want_sync: {type:String}
+  groomer_is_want_sync: {type:String},
+  isDeleted: {type:Boolean, default:false},
 },
   {
     timestamps: true,

@@ -1,8 +1,8 @@
-import mongoose from "mongoose";
-const User = require('./User');
-const Pet = require('./Pet');
-const Doctor = require('./Doctor');
-const Groomer = require('./Groomer');
+import mongoose from 'mongoose';
+require('./User');
+require('./Pet');
+require('./Doctor');
+require('./Groomer');
 
 const bookingSchema = new mongoose.Schema({
   bookingAmount: { type: String },

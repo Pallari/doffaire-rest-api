@@ -40,7 +40,6 @@ export const resendOtp = {
 
 export const login = {
   body: Joi.object().keys({
-    business_category: Joi.string().required().valid('groomer', 'veteran'),
     email: Joi.string(),
     password: Joi.string().required(),
   })

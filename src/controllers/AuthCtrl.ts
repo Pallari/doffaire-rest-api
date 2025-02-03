@@ -265,12 +265,17 @@ export default class Auth {
   async doLogin(req, res) {
     const data = req.body;
 
-    const business_category = data.business_category;
+    let userType = '';
 
-    const user = business_category === 'groomer' ? await Groomer.findOne({ email: data?.email }).exec() : await Veteran.findOne({ email: data?.email }).exec();
+    const groomerUser = await Groomer.findOne({ email: data?.email }).exec(); 
+    const veteranUser = await Veteran.findOne({ email: data?.email }).exec();
+
+    const user = groomerUser || veteranUser;
+
+    userType = groomerUser ? 'groomer' : 'veteran';
 
     if (!user) {
-      return res.json({ success: false, message: `${data?.email} for ${business_category} not found.` });
+      return res.json({ success: false, message: `${data?.email} for ${userType} not found.` });
     }
 
     const isPasswordMatch = await comparePassword(data.password, user.password);
@@ -283,12 +288,12 @@ export default class Auth {
 
     let updatedUser: any;
     
-    if (business_category === 'groomer') {
+    if (userType === 'groomer') {
       updatedUser = await Groomer.findByIdAndUpdate({ _id: user._id }, { $set: { sessionToken } }, { new: true });
-    } else if (business_category === 'veteran') {
+    } else if (userType === 'veteran') {
       updatedUser = await Veteran.findByIdAndUpdate({ _id: user._id }, { $set: { sessionToken } }, { new: true });
     }
-
+    updatedUser = {...updatedUser, ...{userType: userType}};
     return res.json({ success: true, message: 'Login Successfully', data: updatedUser });
   }
 

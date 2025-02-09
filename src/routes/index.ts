@@ -4,6 +4,7 @@ import authRouter from './Auth';
 import veteranRouter from './veteran';
 import bookingRouter from './Booking';
 import dashboardRouter from './Dashboard';
+import reviewRouter from './Review';
 export default class Routes {
   constructor(app: Application) {
     // Default Route
@@ -21,6 +22,8 @@ export default class Routes {
     app.use('/booking', bookingRouter);
     // Dashboard routes
     app.use('/dashboard', dashboardRouter);
+     // revier routes
+     app.use('/review', reviewRouter);
 
   }
 }

@@ -5,6 +5,7 @@ const veteranSchema = new mongoose.Schema(
     clinicName: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
+    userType: {type:String, default: 'veteran'},
     logo: { type: String },
     phone: { type: String, required: true },
     alternativePhone: { type: String },

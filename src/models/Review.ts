@@ -9,6 +9,7 @@ const reviewSchema = new mongoose.Schema({
     reviewImages: {type:String},
     reviewDateTime: {type:String},
     reviewUpdateTime: {type:String},
+    serviceProviderId: {type: mongoose.Schema.Types.ObjectId, ref: 'groomer'},
     _class: {type:String}
 },
 {

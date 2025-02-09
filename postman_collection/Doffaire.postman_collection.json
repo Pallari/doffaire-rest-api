@@ -463,6 +463,33 @@
 				"url": "{{host_url}}/auth/deleteAccount/groomer"
 			},
 			"response": []
+		},
+		{
+			"name": "Review Listing",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzgxZjA3NWIzNWMzMjUxMWQzZjg1OTYiLCJpYXQiOjE3Mzg4MzQ0NDEsImV4cCI6MTczODgzNTM0MX0.ACqtJiXHQheTawdR5pcsNP9jBShmE6ZVv4KWOaqVV5I",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"page\":2,\n    \"pageSize\":2,\n    \"sortBy\": \"rating\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{host_url}}/review/listing"
+			},
+			"response": []
 		}
 	]
 }

@@ -12,6 +12,8 @@ class ReviewRoutes{
         this.initializeroutes();
     }
     initializeroutes(){
-        this.router.route('/reviewListing').post(verifyAuthToken, validate(reviewListingValidator),this.reviewCtrl.reviewListing)
+        this.router.route('/listing').post(verifyAuthToken, validate(reviewListingValidator),this.reviewCtrl.reviewListing)
     }
 }
+
+export default new ReviewRoutes().router;

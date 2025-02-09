@@ -1,14 +1,15 @@
+import mongoose from "mongoose";
+const { ObjectId } = mongoose.Types;
 import { apiErrorHandler } from "../handlers/errorHandler";
 import { Booking } from "../models/Booking";
-import { Groomer } from "../models/Groomer";
-import { Veteran } from "../models/Veteran";
-
+import { Review } from "../models/Review";
 export default class DashboardCtrl {
     constructor(){}
 
     async todaysBookingListing(req,res){
            try {
              const data = req.body;
+             const serviceProviderId = req.user._id
              const todayStart = new Date(new Date().setHours(0, 0, 0, 0))
              const todayEnd = new Date(new Date().setHours(23, 59, 59, 999))
             
@@ -19,8 +20,8 @@ export default class DashboardCtrl {
        
              let searchQuery =
                data.business_category === 'groomer'
-                 ? { serviceProviderType: 'groomer',...todaysQuery }
-                 : { serviceProviderType: 'vet',...todaysQuery };
+                 ? { serviceProviderId,serviceProviderType: 'groomer',...todaysQuery }
+                 : { serviceProviderId,serviceProviderType: 'vet',...todaysQuery };
              let sort = data.sortBy ? data.sortBy : 'createdAt';
        
              if (data.searchString) {
@@ -58,12 +59,10 @@ export default class DashboardCtrl {
 
     async analyticData(req,res){
       try {        
-        let serviceProviderId = req.user._id;
-
-        // Pending: average This month,  feedbacks by users, average appointment time, repeated clients
-        const data = await Booking.aggregate([
-          {'$match': {serviceProviderId: serviceProviderId}},
-          
+        const serviceProviderId = req.user._id;
+        
+        const bookingData = await Booking.aggregate([
+          {'$match': {serviceProviderId:  ObjectId.createFromHexString(serviceProviderId) }},
           {
             $project:{
               bookingAmount: 1,
@@ -85,7 +84,61 @@ export default class DashboardCtrl {
         }},
         ])
 
-        return res.json({success: true, data: data})
+       // repeated clients
+        const userRelatedData = await Booking.aggregate([
+            {$match: {serviceProviderId:ObjectId.createFromHexString(serviceProviderId)}},
+            {$group :
+                 { _id: '$userId', 
+                     repeatedClients: { $sum: 1 } 
+                 }
+             },
+             {$match: {_id :{ $ne : null } , repeatedClients : {$gt: 1} } }, 
+             { $group: { _id: null, repeatedClients: { $sum: 1 } } }
+        ])
+
+        //feedbacks by users
+        const clientReviewData = await Review.aggregate([
+          {'$match': {serviceProviderId: ObjectId.createFromHexString(serviceProviderId) }},
+          {
+              '$group':{
+                  _id:1,
+                  totalClients: {$sum: 1},
+                  averagerating: {$avg: "$rating"},
+              }
+          },{
+              '$project':{
+                  totalClients: 1,
+                  averageRating: 1,
+                  _id:0
+              }
+          }
+        ])
+
+        // average This month
+        const bookingMonthData = await Booking.aggregate([
+          {$match: {serviceProviderId:ObjectId.createFromHexString(serviceProviderId)}},
+          {
+            '$group':{
+                _id: {$month: '$startTime'},
+                 numberofbookings: {$sum: 1}     
+            }
+          }
+        ])
+
+        const data = {
+          totalBooking: bookingData ? bookingData[0].todaysBooking : 0,
+          upcomingBooking: bookingData ? bookingData[0].upcomingBooking : 0,
+          completedBooking: bookingData ? bookingData[0].completedBooking : 0,
+          cancelledBooking: bookingData ? bookingData[0].cancelledBooking : 0,
+          totalearning: bookingData ? bookingData[0].totalearning : 0,
+          averageEarning: bookingData ? bookingData[0].averageEarning : 0,
+          // totalClients: bookingData ? bookingData[0].totalClients : 0,
+          repeatedClients: userRelatedData ? userRelatedData[0].repeatedClients : 0,
+          totalClients: clientReviewData ? clientReviewData[0].totalClients : 0,
+          averageRating: clientReviewData ? clientReviewData[0].averageRating : 0,
+         monthlydata: bookingMonthData
+        }
+        return res.json({success: true, data:data})
              
       } catch (error) {
         apiErrorHandler(error, req, res, `Analytic Data Failed`);

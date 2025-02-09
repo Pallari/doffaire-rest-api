@@ -5,6 +5,7 @@ const groomerSchema = new mongoose.Schema(
     storeName: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
+    userType: {type:String, default: 'groomer'},
     logo: { type: String },
     phone: { type: String, required: true },
     alternativePhone: { type: String },

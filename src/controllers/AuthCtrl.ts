@@ -161,9 +161,10 @@ export default class Auth {
     const data = req.body;
     const business_category = data.business_category;
 
-    const user = business_category === 'groomer' ? await Groomer.findOne({ email: data?.groomer_email }).exec() : await Veteran.findOne({ email: data?.veterinary_email }).exec();
+    const groomerUser = await Groomer.findOne({ email: data?.groomer_email }).exec();
+    const veteranUser = await Veteran.findOne({ email: data?.veterinary_email }).exec();
 
-    if (user) {
+    if (groomerUser || veteranUser) {
       return res.json({ success: false, message: `This ${business_category} is already registered.` });
     }
 
@@ -264,15 +265,11 @@ export default class Auth {
 
   async doLogin(req, res) {
     const data = req.body;
-
-    let userType = '';
-
-    const groomerUser = await Groomer.findOne({ email: data?.email }).exec(); 
-    const veteranUser = await Veteran.findOne({ email: data?.email }).exec();
+    const groomerUser = await Groomer.findOne({ email: data?.email, isDeleted:false }).exec(); 
+    const veteranUser = await Veteran.findOne({ email: data?.email, isDeleted:false }).exec();
 
     const user = groomerUser || veteranUser;
-
-    userType = groomerUser ? 'groomer' : 'veteran';
+    const userType = groomerUser ? 'groomer' : 'veteran';
 
     if (!user) {
       return res.json({ success: false, message: `${data?.email} for ${userType} not found.` });
@@ -286,15 +283,13 @@ export default class Auth {
 
     const sessionToken = await createAuthToken({ _id: (user._id).toString() });
 
-    let updatedUser: any;
-    
+    let updatedUser: any
     if (userType === 'groomer') {
       updatedUser = await Groomer.findByIdAndUpdate({ _id: user._id }, { $set: { sessionToken } }, { new: true });
     } else if (userType === 'veteran') {
       updatedUser = await Veteran.findByIdAndUpdate({ _id: user._id }, { $set: { sessionToken } }, { new: true });
     }
-    updatedUser = {...updatedUser, ...{userType: userType}};
-    return res.json({ success: true, message: 'Login Successfully', data: updatedUser });
+    return res.json({ success: true, message: 'Login Successfully', data: updatedUser});
   }
 
   async doForgotPassword(req, res) {
@@ -311,7 +306,7 @@ export default class Auth {
     const emailData = {
       to: data.email,
       subject: `Doaffair ${business_category} Password`,
-      text: `Your Password for Doaffaire is ${password}.`
+      text: `Your Password for Doaffaire is ${password}`
     };
 
     await this.emailTransport.sentVerificationEmail(emailData)

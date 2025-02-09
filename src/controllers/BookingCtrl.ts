@@ -5,17 +5,16 @@ import { User } from '../models/User';
 import { SMS_API_KEY, TWO_FACTOR_SMS_API } from '../constants/constants-info';
 
 export default class BookingCtrl {
+  emailTransport: any;
   constructor() {}
 
   async bookingListing(req, res) {
     try {
       const data = req.body;
+      const serviceProviderId = req.user._id
       const currentTime = new Date();
 
-      let searchQuery =
-        data.business_category === 'groomer'
-          ? { serviceProviderType: 'groomer' }
-          : { serviceProviderType: 'vet' };
+      let searchQuery ={ serviceProviderId }
       let sort = data.sortBy ? data.sortBy : 'createdAt';
 
       if (data.searchString) {
@@ -100,39 +99,24 @@ export default class BookingCtrl {
   async rescheduleListing(req,res) {
     try {
         const data = req.body;
-        const currentTime = new Date();
-
-        let searchQuery =
-          data.business_category === 'groomer'
-            ? { serviceProviderType: 'groomer', $or: [{
+        const serviceProviderId = req.user._id
+        let searchQuery = { serviceProviderId, 
+            $or: [
+              {
                 status: 'rescheduled'
-            },
-            {
+              },
+              {
                 status: 'rescheduleRequest'
-            }
+              }
         ]}
-            : { serviceProviderType: 'vet' ,$or: [{
-                status: 'rescheduled'
-            },
-            {
-                status: 'rescheduleRequest'
-            }
-        ]}
-
-
+          
         let sort = data.sortBy ? data.sortBy : 'createdAt';
   
-        // To Do: Search String
-        // if (data.searchString) {
-        //   const query = {
-        //     $or: [
-        //       { status: { $regex: data.searchString, $options: 'i' } },
-        //       { serviceType: { $regex: data.searchString, $options: 'i' } },
-        //     ],
-        //   };
+        if (data.searchString) {
+          let query =  { status: { $regex: data.searchString, $options: 'i' } };
+          searchQuery = { ...searchQuery, ...query };
+        }
 
-        // searchQuery = {...searchQuery,...query}
-        // }
 
         const bookingData = await Booking.find(searchQuery)
         .sort(sort)
@@ -215,16 +199,61 @@ export default class BookingCtrl {
   async updateBookingStatus(req,res){
     try {
         const {bookingId, status} = req.body
-        const bookingData = await Booking.updateOne(
-            { _id: bookingId },
-            { $set: {status: status} }
-          );
+        const bookingData = await Booking.findByIdAndUpdate({ _id:bookingId }, { $set: { status } }, { new: true });
     
-          if (bookingData)
+          if (bookingData){
+              const userId = bookingData.createdBy;
+              // sending mail to user for accepting the booking
+              if(status === 'confirmed'){
+                const emailData = {
+                  to: userId,
+                  subject: `Booking Accepted`,
+                  text: `Your Booking is confimed`
+                };
+            
+                await this.emailTransport.sentVerificationEmail(emailData)
+              }
+
+                // sending mail to user for rejecting the booking
+                if(status === 'rejectByProvider'){
+                  const emailData = {
+                    to: userId,
+                    subject: `Booking Rejected`,
+                    text: `Your Booking is rejected.`
+                  };
+              
+                  await this.emailTransport.sentVerificationEmail(emailData)
+                }
+                
+               // sending mail to user for cancel the booking
+               if(status === 'cancelByProvider'){
+                const emailData = {
+                  to: userId,
+                  subject: `Booking Cancelled`,
+                  text: `Your Booking is cancelled.`
+                };
+            
+                await this.emailTransport.sentVerificationEmail(emailData)
+              }
+
+               // sending mail to user for rescheduling the booking
+               if(status === 'rescheduleByProvider'){
+                const emailData = {
+                  to: userId,
+                  subject: `Booking Rescheduled`,
+                  text: `Your booking is rescheduled. Kindly check your booking for the update.`
+                };
+            
+                await this.emailTransport.sentVerificationEmail(emailData)
+              }
+
+
             return res.json({
               success: true,
               message: 'Booking Status updated Successfully',
             });
+          }
+           
     
           return res.json({
             success: false,

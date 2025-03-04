@@ -5,6 +5,8 @@ export const SMS_API_KEY = '44d09d5a-660e-11ef-8b60-0200cd936042';
 
 export const DB_URL = 'mongodb+srv://doffair_dev:yTwgZQf2t3XiSXos@development-cluster.9w53x.mongodb.net/?retryWrites=true&w=majority&appName=development-cluster';
 export const DB_NAME = 'doffaire';
+export const TOKEN_EXPIRY = '365d';
+export const RANDOM_STRING = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*()_+';
 
 
 export const MAIL_AUTH_INFO = {
@@ -13,5 +15,3 @@ export const MAIL_AUTH_INFO = {
     user: 'admin@doffair.com',
     pass: 'wcafphgeerrezobr'
 };
-
-export const RANDOM_STRING = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*()_+';

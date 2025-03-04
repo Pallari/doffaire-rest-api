@@ -1,9 +1,8 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { RANDOM_STRING } from '../constants/constants-info';
+import { RANDOM_STRING, TOKEN_EXPIRY } from '../constants/constants-info';
 
 const tokenPrivateKey = 'DoFfAIrE';
-const tokenExpiry = '15m';
 
 //creates an HMAC (Hash-based Message Authentication Code) object using the SHA-256
 export const authentication = async (password) => {
@@ -17,7 +16,7 @@ export const comparePassword = async (password, encryptedPassword) => {
 
 export const createAuthToken = async (data) => {
   return jwt.sign(data, tokenPrivateKey,  {
-    expiresIn: tokenExpiry
+    expiresIn: TOKEN_EXPIRY
 });
 };
 

@@ -106,9 +106,31 @@ export default class Auth {
       } else if (business_category === 'veteran') {
         userData = await Veteran.findByIdAndUpdate({ _id: userId }, { $set: { sessionToken } });
       }
-      return res.json({ success: true, message: 'Token refreshed Successfully', sessionToken: sessionToken });
+      return res.json({ success: true, message: 'Token refreshed Successfully', data: userData });
     } catch (error) {
       apiErrorHandler(error, req, res, 'Token refreshing failed.');
+    }
+  }
+
+  async validateToken(req,res){
+    try {
+      let userId = req.user._id;
+
+      const groomerUser = await Groomer.findById(userId).exec(); 
+      const veteranUser = await Veteran.findById(userId).exec();
+  
+      const user = groomerUser || veteranUser;
+      const userType = groomerUser ? 'groomer' : 'veteran';
+
+      if (!user) {
+        return res.json({ success: false, message: `${userType} not found.` });
+      }
+  
+      return res.json({ success: true, message: 'Token Validated Successfully', data: user});
+
+
+    } catch (error) {
+      apiErrorHandler(error, req, res, 'Validate failed.');
     }
   }
 

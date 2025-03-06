@@ -6,7 +6,7 @@ export const listing  = {
     page: Joi.number().required(),
     pageSize: Joi.number().required(),
     pageName: Joi.string().required().valid("ongoing" ,"upcoming", "past"),
-    searchString: Joi.string(),
+    searchString: Joi.string().allow('').optional(),
     sortBy: Joi.string()
   })
 };
@@ -25,7 +25,7 @@ export const rescheduleListing  = {
     business_category: Joi.string().required().valid('groomer', 'veteran'),
     page: Joi.number().required(),
     pageSize: Joi.number().required(),
-    searchString: Joi.string(),
+    searchString: Joi.string().allow('').optional(),
     sortBy: Joi.string()
   })
 };

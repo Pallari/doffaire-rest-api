@@ -5,7 +5,7 @@ export const todaysListingValidator = {
         business_category: Joi.string().required().valid('groomer', 'veteran'),
         page: Joi.number().required(),
         pageSize: Joi.number().required(),
-        searchString: Joi.string(),
+        searchString: Joi.string().allow('').optional(),
         sortBy: Joi.string()
     })
 }

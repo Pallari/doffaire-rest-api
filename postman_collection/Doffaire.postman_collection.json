@@ -96,7 +96,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"business_category\": \"veteran\",\n  \"email\": \"pallari123@gmail.com\",\n  \"password\": \"abcd@123\"   \n}",
+					"raw": "{\n  \"email\": \"pallari123@gmail.com\",\n  \"password\": \"gG3ZFkXA\"   \n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -207,7 +207,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhjNzk3MDA0Y2ZhMTdlNGNkYWNhZDYiLCJpYXQiOjE3MzcyNjA3NjYsImV4cCI6MTczNzI5Njc2Nn0.I1hvqCtY8BqETyvLlzOyokmFb7Dnkc6WDEDgLZH5vlo",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhhMmYwYmY4NWY2MmIyMTY4MGM0NTMiLCJpYXQiOjE3NDEyMzk5OTMsImV4cCI6MTc3Mjc3NTk5M30.k0U0xiFregbHoYZLY7kup9DyxQF33TCeq7h1hu_-GNI",
 						"type": "text"
 					}
 				],
@@ -488,6 +488,24 @@
 					}
 				},
 				"url": "{{host_url}}/review/listing"
+			},
+			"response": []
+		},
+		{
+			"name": "Validate Token",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzhhMmYwYmY4NWY2MmIyMTY4MGM0NTMiLCJpYXQiOjE3NDEyMzk5OTMsImV4cCI6MTc3Mjc3NTk5M30.k0U0xiFregbHoYZLY7kup9DyxQF33TCeq7h1hu_-GNI",
+						"type": "text"
+					}
+				],
+				"url": "{{host_url}}/auth/validateToken"
 			},
 			"response": []
 		}

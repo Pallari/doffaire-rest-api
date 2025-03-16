@@ -21,7 +21,9 @@ export const updateDetail = {
         groomer_service_name: Joi.string(),
         groomer_service_price: Joi.string(),
         groomer_service_duration: Joi.string(),
-        service_id: Joi.string()
+        service_id: Joi.string(),
+        discount: Joi.string(),
+        service_type: Joi.string()
     })),
     groomer_upload_documents: Joi.array().items(Joi.object().keys({
         groomer_document_file_name: Joi.string(),

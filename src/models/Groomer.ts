@@ -41,7 +41,9 @@ const groomerSchema = new mongoose.Schema(
       groomer_service_name: {type:String},
       groomer_service_price: {type:String},
       groomer_service_duration: {type:String},
-      service_id: {type:String}
+      service_id: {type:String},
+      discount: {type:String},
+      service_type: {type:String}
     }
   ],
   groomer_upload_documents: [
